@@ -101,12 +101,8 @@ func originTimestamp2Time(b []byte) (time.Time, error) {
 		return time.Now(), io.ErrUnexpectedEOF
 	}
 
-	// TODO: must be implemented
-	t := time.Now()
+	sec := binary.BigEndian.Uint64(append([]byte{0, 0}, b[:6]...))
+	nsec := binary.BigEndian.Uint32(append(b[6:10], []byte{0, 0, 0, 0}...))
 
-	if len(b) != 10 {
-		return time.Now(), io.ErrUnexpectedEOF
-	}
-
-	return t, nil
+	return time.Unix(int64(sec), int64(nsec)), nil
 }
