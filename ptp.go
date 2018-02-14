@@ -8,10 +8,11 @@ import (
 )
 
 var (
-	ErrInvalidFrame   = errors.New("Invalid frame")
-	ErrInvalidHeader  = errors.New("Invalid header")
-	ErrMissedHeader   = errors.New("Missed header")
-	ErrInvalidMsgType = errors.New("Invalid message type")
+	ErrInvalidFrame       = errors.New("Invalid frame")
+	ErrInvalidHeader      = errors.New("Invalid header")
+	ErrMissedHeader       = errors.New("Missed header")
+	ErrInvalidMsgType     = errors.New("Invalid message type")
+	ErrUnsupportedVersion = errors.New("Unsupported protocol version")
 )
 
 // MsgType Type

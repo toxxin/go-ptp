@@ -202,7 +202,11 @@ func (h *Header) UnmarshalBinary(b []byte) error {
 		return ErrInvalidMsgType
 	}
 
-	h.VersionPTP = Verion2
+	// TODO: Add implementation another versions
+	h.VersionPTP = ProtoVersion(0xf & b[1])
+	if h.VersionPTP != Verion2 {
+		return ErrUnsupportedVersion
+	}
 
 	h.MessageLength = binary.BigEndian.Uint16(b[2:4])
 
