@@ -173,6 +173,24 @@ func (h *Header) MarshalBinary() ([]byte, error) {
 	return b, nil
 }
 
+func isValidMsgType(msgtype MsgType) bool {
+	switch msgtype {
+	case
+		SyncMsgType,
+		DelayReqMsgType,
+		PDelayReqMsgType,
+		PDelayRespMsgType,
+		FollowUpMsgType,
+		DelayRespMsgType,
+		PDelayRespFollowUpMsgType,
+		AnnonceMsgType,
+		SignalingMsgType,
+		MgmtMsgType:
+		return true
+	}
+	return false
+}
+
 // UnmarshalBinary unmarshals a byte slice into a Header.
 func (h *Header) UnmarshalBinary(b []byte) error {
 	if len(b) != HeaderLen {
@@ -180,7 +198,9 @@ func (h *Header) UnmarshalBinary(b []byte) error {
 	}
 
 	h.MessageType = MsgType(b[0] & 0x0f)
-	// TODO: check if msg type is valid
+	if !isValidMsgType(h.MessageType) {
+		return ErrInvalidMsgType
+	}
 
 	h.VersionPTP = Verion2
 
