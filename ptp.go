@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// Errors
 var (
 	ErrInvalidFrame       = errors.New("Invalid frame")
 	ErrInvalidHeader      = errors.New("Invalid header")
