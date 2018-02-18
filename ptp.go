@@ -58,6 +58,11 @@ const (
 	OriginTimestampSecLen     = 6
 	OriginTimestampNanoSecLen = 4
 	OriginTimestampFullLen    = OriginTimestampSecLen + OriginTimestampNanoSecLen
+	CurrentUtcOffsetLen       = 2
+	GrandMasterClockQuality   = 4
+	GrandMasterIdentityLen    = 8
+	StepsRemovedLen           = 2
+	Reserved4                 = 4
 	Reserved10                = 10
 )
 
@@ -71,8 +76,8 @@ const (
 	PDelayReqPayloadLen          = OriginTimestampFullLen + Reserved10
 	PDelayRespPayloadLen         = OriginTimestampFullLen + PortIdentityLen
 	PDelayRespFollowUpPayloadLen = OriginTimestampFullLen + PortIdentityLen
-
-	// TODO: add Signalling, Management, etc.
+	AnnouncePayloadLen           = 30
+	// SignalingPayloadLen depends on TLVs
 )
 
 // time2OriginTimestamp allocates 6+4(sec+nanosec) bytes slice
