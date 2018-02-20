@@ -99,7 +99,7 @@ func TestUnmarshalPDelReq(t *testing.T) {
 				Header: Header{
 					MessageType:   PDelayReqMsgType,
 					MessageLength: HeaderLen + PDelayReqPayloadLen,
-					VersionPTP:    Verion2,
+					VersionPTP:    Version2,
 					Flags: Flags{
 						Security:           false,
 						ProfileSpecific2:   false,

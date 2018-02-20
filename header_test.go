@@ -19,7 +19,7 @@ func TestMarshalHeader(t *testing.T) {
 			h: &Header{
 				MessageType:   PDelayReqMsgType,
 				MessageLength: 44,
-				VersionPTP:    Verion2,
+				VersionPTP:    Version2,
 				Flags: Flags{
 					Security:           false,
 					ProfileSpecific2:   false,
@@ -78,7 +78,7 @@ func TestUnmarshalHeader(t *testing.T) {
 			h: &Header{
 				MessageType:   PDelayReqMsgType,
 				MessageLength: 44,
-				VersionPTP:    Verion2,
+				VersionPTP:    Version2,
 				Flags: Flags{
 					Security:           false,
 					ProfileSpecific2:   false,

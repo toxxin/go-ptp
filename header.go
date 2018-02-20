@@ -11,9 +11,9 @@ type ProtoVersion uint8
 // Version numbers
 const (
 	_ ProtoVersion = iota
-	Verion1
-	Verion2
-	Verion3
+	Version1
+	Version2
+	Version3
 )
 
 // Flags is header's field to indicate status
@@ -97,7 +97,7 @@ func (h *Header) MarshalBinary() ([]byte, error) {
 	offset++
 
 	// PTP proto version
-	b[1] = byte(Verion2)
+	b[1] = byte(Version2)
 	offset++
 
 	// Message length
@@ -183,7 +183,7 @@ func isValidMsgType(msgtype MsgType) bool {
 		FollowUpMsgType,
 		DelayRespMsgType,
 		PDelayRespFollowUpMsgType,
-		AnnonceMsgType,
+		AnnounceMsgType,
 		SignalingMsgType,
 		MgmtMsgType:
 		return true
@@ -204,7 +204,7 @@ func (h *Header) UnmarshalBinary(b []byte) error {
 
 	// TODO: Add implementation another versions
 	h.VersionPTP = ProtoVersion(0xf & b[1])
-	if h.VersionPTP != Verion2 {
+	if h.VersionPTP != Version2 {
 		return ErrUnsupportedVersion
 	}
 
