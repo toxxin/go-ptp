@@ -45,9 +45,9 @@ const (
 
 // GMClockQuality defines Grand Master Clock Quality
 type GMClockQuality struct {
-	ClockClass              ClockClassType
-	ClockAccuracy           ClockAccuracyType
-	OffsetScaledLogVariance uint16
+	ClockClass    ClockClassType
+	ClockAccuracy ClockAccuracyType
+	ClockVariance uint16
 }
 
 func isValidClockClass(class ClockClassType) bool {
@@ -105,7 +105,7 @@ func (p *GMClockQuality) UnmarshalBinary(b []byte) error {
 		return ErrInvalidClockAccuracy
 	}
 
-	p.OffsetScaledLogVariance = binary.BigEndian.Uint16(b[2:])
+	p.ClockVariance = binary.BigEndian.Uint16(b[2:])
 
 	return nil
 }
@@ -120,10 +120,26 @@ const (
 	TimeSourceTRadio      TimeSourceType = 48
 	TimeSourcePTP         TimeSourceType = 64
 	TimeSourceNTP         TimeSourceType = 80
-	TimeSourcehandSet     TimeSourceType = 96
+	TimeSourceHandSet     TimeSourceType = 96
 	TimeSourceOther       TimeSourceType = 144
 	TimeSourceInternalOsc TimeSourceType = 160
 )
+
+func isValidTimeSource(t TimeSourceType) bool {
+	switch t {
+	case
+		TimeSourceAtomic,
+		TimeSourceGPS,
+		TimeSourceTRadio,
+		TimeSourcePTP,
+		TimeSourceNTP,
+		TimeSourceHandSet,
+		TimeSourceOther,
+		TimeSourceInternalOsc:
+		return true
+	}
+	return false
+}
 
 // AnnounceMsg ...
 type AnnounceMsg struct {
@@ -136,4 +152,55 @@ type AnnounceMsg struct {
 	GMIdentity       uint64
 	StepsRemoved     uint16
 	TimeSource       TimeSourceType
+}
+
+// UnmarshalBinary unmarshals a byte slice into a Header.
+func (t *AnnounceMsg) UnmarshalBinary(b []byte) error {
+	if len(b) != HeaderLen+AnnouncePayloadLen {
+		return io.ErrUnexpectedEOF
+	}
+	err := t.Header.UnmarshalBinary(b[:34])
+	if err != nil {
+		return err
+	}
+
+	offset := 34
+
+	t.OriginTimestamp, err = originTimestamp2Time(b[offset : offset+10])
+	if err != nil {
+		return err
+	}
+	offset += 10
+
+	utcoffset := binary.BigEndian.Uint16(b[offset : offset+2])
+	t.CurrentUtcOffset = int16(utcoffset)
+	offset += 2
+
+	// Reserved byte
+	offset++
+
+	t.GMPriority1 = b[offset]
+	offset++
+
+	err = t.GMClockQuality.UnmarshalBinary(b[offset : offset+GMClockQualityPayloadLen])
+	if err != nil {
+		return err
+	}
+	offset += GMClockQualityPayloadLen
+
+	t.GMPriority2 = b[offset]
+	offset++
+
+	t.GMIdentity = binary.BigEndian.Uint64(b[offset : offset+GrandMasterIdentityLen])
+	offset += GrandMasterIdentityLen
+
+	t.StepsRemoved = binary.BigEndian.Uint16(b[offset : offset+StepsRemovedLen])
+	offset += StepsRemovedLen
+
+	t.TimeSource = TimeSourceType(b[offset])
+	if !isValidTimeSource(t.TimeSource) {
+		return ErrInvalidTimeSource
+	}
+
+	return nil
 }
