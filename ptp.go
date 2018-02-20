@@ -15,6 +15,7 @@ var (
 	ErrUnsupportedVersion   = errors.New("Unsupported protocol version")
 	ErrInvalidClockClass    = errors.New("Invalid clock class")
 	ErrInvalidClockAccuracy = errors.New("Invalid clock accuracy")
+	ErrInvalidTimeSource    = errors.New("Invalid time source")
 )
 
 // MsgType Type
@@ -48,24 +49,24 @@ const (
 
 // Length in octets of main fields
 const (
-	MessageLengthLen          = 2
-	FlagsLen                  = 2
-	CorrectionNanoSecLen      = 6
-	CorrectionSubNanoSecLen   = 2
-	CorrectionFullLen         = CorrectionNanoSecLen + CorrectionSubNanoSecLen
-	ClockIdentityLen          = 8
-	SourcePortIDLen           = 2
-	PortIdentityLen           = ClockIdentityLen + SourcePortIDLen
-	SequenceIDLen             = 2
-	OriginTimestampSecLen     = 6
-	OriginTimestampNanoSecLen = 4
-	OriginTimestampFullLen    = OriginTimestampSecLen + OriginTimestampNanoSecLen
-	CurrentUtcOffsetLen       = 2
-	GrandMasterClockQuality   = 4
-	GrandMasterIdentityLen    = 8
-	StepsRemovedLen           = 2
-	Reserved4                 = 4
-	Reserved10                = 10
+	MessageLengthLen           = 2
+	FlagsLen                   = 2
+	CorrectionNanoSecLen       = 6
+	CorrectionSubNanoSecLen    = 2
+	CorrectionFullLen          = CorrectionNanoSecLen + CorrectionSubNanoSecLen
+	ClockIdentityLen           = 8
+	SourcePortIDLen            = 2
+	PortIdentityLen            = ClockIdentityLen + SourcePortIDLen
+	SequenceIDLen              = 2
+	OriginTimestampSecLen      = 6
+	OriginTimestampNanoSecLen  = 4
+	OriginTimestampFullLen     = OriginTimestampSecLen + OriginTimestampNanoSecLen
+	CurrentUtcOffsetLen        = 2
+	GrandMasterClockQualityLen = 4
+	GrandMasterIdentityLen     = 8
+	StepsRemovedLen            = 2
+	Reserved4                  = 4
+	Reserved10                 = 10
 )
 
 // Length in octets of header and payloads
