@@ -9,10 +9,12 @@ import (
 
 // Errors
 var (
-	ErrInvalidFrame       = errors.New("Invalid frame")
-	ErrInvalidHeader      = errors.New("Invalid header")
-	ErrInvalidMsgType     = errors.New("Invalid message type")
-	ErrUnsupportedVersion = errors.New("Unsupported protocol version")
+	ErrInvalidFrame         = errors.New("Invalid frame")
+	ErrInvalidHeader        = errors.New("Invalid header")
+	ErrInvalidMsgType       = errors.New("Invalid message type")
+	ErrUnsupportedVersion   = errors.New("Unsupported protocol version")
+	ErrInvalidClockClass    = errors.New("Invalid clock class")
+	ErrInvalidClockAccuracy = errors.New("Invalid clock accuracy")
 )
 
 // MsgType Type
