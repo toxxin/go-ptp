@@ -29,7 +29,7 @@ const (
 	FollowUpMsgType           MsgType = 0x8
 	DelayRespMsgType          MsgType = 0x9
 	PDelayRespFollowUpMsgType MsgType = 0xA
-	AnnonceMsgType            MsgType = 0xB
+	AnnounceMsgType           MsgType = 0xB
 	SignalingMsgType          MsgType = 0xC
 	MgmtMsgType               MsgType = 0xD
 )
@@ -79,6 +79,7 @@ const (
 	PDelayRespPayloadLen         = OriginTimestampFullLen + PortIdentityLen
 	PDelayRespFollowUpPayloadLen = OriginTimestampFullLen + PortIdentityLen
 	AnnouncePayloadLen           = 30
+	GMClockQualityPayloadLen     = 4
 	// SignalingPayloadLen depends on TLVs
 )
 
