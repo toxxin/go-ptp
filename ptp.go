@@ -111,7 +111,10 @@ func originTimestamp2Time(b []byte) (time.Time, error) {
 	}
 
 	sec := binary.BigEndian.Uint64(append([]byte{0, 0}, b[:6]...))
-	nsec := binary.BigEndian.Uint32(append(b[6:10], []byte{0, 0, 0, 0}...))
+
+	nsecSlice := append([]byte{}, b[6:10]...)
+	nsecSlice = append(nsecSlice, []byte{0, 0, 0, 0}...)
+	nsec := binary.BigEndian.Uint32(nsecSlice)
 
 	return time.Unix(int64(sec), int64(nsec)), nil
 }
