@@ -1,5 +1,10 @@
 package ptp
 
+import (
+	"encoding/binary"
+	"io"
+)
+
 // TlvType Type
 type TlvType uint16
 
@@ -39,3 +44,34 @@ const (
 	// Reserved
 	// 4000 – FFFF
 )
+
+// PathTraceTlv ...
+type PathTraceTlv struct {
+	pathSequence []uint64
+}
+
+// UnmarshalBinary unmarshals a byte slice into a PathTraceTlv.
+//
+// If the byte slice does not contain enough data to unmarshal a valid PDelReqMsg,
+// io.ErrUnexpectedEOF is returned.
+func (p *PathTraceTlv) UnmarshalBinary(b []byte) error {
+	if len(b) < (2 + 2 + ClockIdentityLen) {
+		return io.ErrUnexpectedEOF
+	}
+
+	// Length of b must be 2 + 2 + 8N
+	// Сheck the remainder of division by 8
+	tlvLen := binary.BigEndian.Uint16(b[2:4])
+	if int(tlvLen) != len(b[4:]) || tlvLen%8 != 0 {
+		return io.ErrUnexpectedEOF
+	}
+
+	pathSeq := make([]uint64, tlvLen/8)
+	for i := range pathSeq {
+		pathSeq[i] = binary.BigEndian.Uint64(b[i*8+4 : i*8+8+4])
+	}
+
+	p.pathSequence = pathSeq
+
+	return nil
+}
