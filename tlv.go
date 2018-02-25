@@ -50,6 +50,24 @@ type PathTraceTlv struct {
 	pathSequence []uint64
 }
 
+// MarshalBinary allocates a byte slice and marshals a Header into binary form.
+func (p *PathTraceTlv) MarshalBinary() ([]byte, error) {
+
+	b := make([]byte, 4+8*len(p.pathSequence))
+
+	// TLV type
+	binary.BigEndian.PutUint16(b[:2], uint16(PathTrace))
+
+	// TLV length
+	binary.BigEndian.PutUint16(b[2:4], uint16(8*len(p.pathSequence)))
+
+	for i, v := range p.pathSequence {
+		binary.BigEndian.PutUint64(b[4+i*8:4+i*8+8], v)
+	}
+
+	return b, nil
+}
+
 // UnmarshalBinary unmarshals a byte slice into a PathTraceTlv.
 //
 // If the byte slice does not contain enough data to unmarshal a valid PDelReqMsg,
