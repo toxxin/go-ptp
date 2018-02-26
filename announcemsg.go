@@ -152,6 +152,7 @@ type AnnounceMsg struct {
 	GMIdentity       uint64
 	StepsRemoved     uint16
 	TimeSource       TimeSourceType
+	PathTraceTlv
 }
 
 // UnmarshalBinary unmarshals a byte slice into a Header.
