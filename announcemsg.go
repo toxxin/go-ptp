@@ -156,7 +156,7 @@ type AnnounceMsg struct {
 
 // UnmarshalBinary unmarshals a byte slice into a Header.
 func (t *AnnounceMsg) UnmarshalBinary(b []byte) error {
-	if len(b) != HeaderLen+AnnouncePayloadLen {
+	if len(b) < HeaderLen+AnnouncePayloadLen {
 		return io.ErrUnexpectedEOF
 	}
 	err := t.Header.UnmarshalBinary(b[:34])
