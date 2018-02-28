@@ -168,7 +168,64 @@ type AnnounceMsg struct {
 	PathTraceTlv
 }
 
-// UnmarshalBinary unmarshals a byte slice into a Header.
+// MarshalBinary allocates a byte slice and marshals a Frame into binary form.
+func (t AnnounceMsg) MarshalBinary() ([]byte, error) {
+	if t.Header.MessageType != AnnounceMsgType {
+		return nil, ErrInvalidMsgType
+	}
+
+	tlvSlice, err := t.PathTraceTlv.MarshalBinary()
+	if err != nil {
+		return nil, err
+	}
+
+	headerSlice, err := t.Header.MarshalBinary()
+	if err != nil {
+		return nil, err
+	}
+
+	b := make([]byte, HeaderLen+AnnouncePayloadLen+len(tlvSlice))
+
+	copy(b[:HeaderLen], headerSlice)
+	offset := HeaderLen
+
+	// Reserved 10 bytes
+	offset += Reserved10
+
+	binary.BigEndian.PutUint16(b[offset:offset+CurrentUtcOffsetLen], uint16(t.CurrentUtcOffset))
+	offset += CurrentUtcOffsetLen
+
+	// Reserved byte
+	offset++
+
+	b[offset] = t.GMPriority1
+	offset++
+
+	gmClockQualitySlice, err := t.GMClockQuality.MarshalBinary()
+	if err != nil {
+		return nil, err
+	}
+	copy(b[offset:offset+GMClockQualityPayloadLen], gmClockQualitySlice)
+	offset += GMClockQualityPayloadLen
+
+	b[offset] = t.GMPriority2
+	offset++
+
+	binary.BigEndian.PutUint64(b[offset:offset+ClockIdentityLen], t.GMIdentity)
+	offset += ClockIdentityLen
+
+	binary.BigEndian.PutUint16(b[offset:offset+StepsRemovedLen], uint16(t.StepsRemoved))
+	offset += StepsRemovedLen
+
+	b[offset] = uint8(t.TimeSource)
+	offset++
+
+	copy(b[offset:offset+len(tlvSlice)], tlvSlice)
+
+	return b, nil
+}
+
+// UnmarshalBinary unmarshals a byte slice into a Frame.
 func (t *AnnounceMsg) UnmarshalBinary(b []byte) error {
 	if len(b) < HeaderLen+AnnouncePayloadLen {
 		return io.ErrUnexpectedEOF
