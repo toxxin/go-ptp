@@ -89,6 +89,19 @@ func isValidClockAccuracy(c ClockAccuracyType) bool {
 	return false
 }
 
+// MarshalBinary allocates a byte slice and marshals a Header into binary form.
+func (p GMClockQuality) MarshalBinary() ([]byte, error) {
+
+	b := make([]byte, 4)
+
+	b[0] = uint8(p.ClockClass)
+	b[1] = uint8(p.ClockAccuracy)
+
+	binary.BigEndian.PutUint16(b[2:4], uint16(p.ClockVariance))
+
+	return b, nil
+}
+
 // UnmarshalBinary unmarshals a byte slice into a Header.
 func (p *GMClockQuality) UnmarshalBinary(b []byte) error {
 	if len(b) != GMClockQualityPayloadLen {
