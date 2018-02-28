@@ -3,7 +3,6 @@ package ptp
 import (
 	"encoding/binary"
 	"io"
-	"time"
 )
 
 // ClockClassType Type
@@ -158,7 +157,6 @@ func isValidTimeSource(t TimeSourceType) bool {
 type AnnounceMsg struct {
 	Header
 	GMClockQuality
-	OriginTimestamp  time.Time
 	CurrentUtcOffset int16
 	GMPriority1      uint8
 	GMPriority2      uint8
@@ -237,10 +235,7 @@ func (t *AnnounceMsg) UnmarshalBinary(b []byte) error {
 
 	offset := 34
 
-	t.OriginTimestamp, err = originTimestamp2Time(b[offset : offset+10])
-	if err != nil {
-		return err
-	}
+	// Reserved 10 bytes
 	offset += 10
 
 	utcoffset := binary.BigEndian.Uint16(b[offset : offset+2])
