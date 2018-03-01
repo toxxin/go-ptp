@@ -101,3 +101,13 @@ func (p *PathTraceTlv) UnmarshalBinary(b []byte) error {
 
 	return nil
 }
+
+// IntervalRequestTlv ...
+type IntervalRequestTlv struct {
+	// OrganizationSubType = 2
+	LinkDelayInterval        int8
+	TimeSyncInterval         int8
+	AnnounceInterval         int8
+	ComputeNeighborRateRatio bool
+	ComputeNeighborPropDelay bool
+}
