@@ -5,6 +5,14 @@ import (
 	"io"
 )
 
+// TLV payload length
+const (
+	FollowUpTlvLen        = 28
+	IntervalRequestTlvLen = 12
+)
+
+var organizationID = []byte{0x0, 0x80, 0xc2}
+
 // TlvType Type
 type TlvType uint16
 
