@@ -58,7 +58,7 @@ type PathTraceTlv struct {
 	pathSequence []uint64
 }
 
-// MarshalBinary allocates a byte slice and marshals a Header into binary form.
+// MarshalBinary allocates a byte slice and marshals a Frame into binary form.
 func (p *PathTraceTlv) MarshalBinary() ([]byte, error) {
 
 	b := make([]byte, 4+8*len(p.pathSequence))
@@ -110,4 +110,31 @@ type IntervalRequestTlv struct {
 	AnnounceInterval         int8
 	ComputeNeighborRateRatio bool
 	ComputeNeighborPropDelay bool
+}
+
+// MarshalBinary allocates a byte slice and marshals a Frame into binary form.
+func (p *IntervalRequestTlv) MarshalBinary() ([]byte, error) {
+
+	b := make([]byte, IntervalRequestTlvLen)
+
+	// TLV type
+	binary.BigEndian.PutUint16(b[:2], uint16(OrganizationExtension))
+
+	// TLV length
+	binary.BigEndian.PutUint16(b[2:4], uint16(IntervalRequestTlvLen))
+
+	copy(b[4:7], organizationID)
+
+	// organizationSubType
+	copy(b[7:10], []byte{0x0, 0x0, 0x2})
+
+	b[10] = uint8(p.LinkDelayInterval)
+
+	b[11] = uint8(p.TimeSyncInterval)
+
+	b[12] = uint8(p.AnnounceInterval)
+
+	b[13] = uint8(b2i(p.ComputeNeighborRateRatio)<<1 | b2i(p.ComputeNeighborPropDelay)<<2)
+
+	return b, nil
 }
