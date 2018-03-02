@@ -78,7 +78,7 @@ func (p *PathTraceTlv) MarshalBinary() ([]byte, error) {
 
 // UnmarshalBinary unmarshals a byte slice into a PathTraceTlv.
 //
-// If the byte slice does not contain enough data to unmarshal a valid PDelReqMsg,
+// If the byte slice does not contain enough data to unmarshal a valid PathTraceTlv,
 // io.ErrUnexpectedEOF is returned.
 func (p *PathTraceTlv) UnmarshalBinary(b []byte) error {
 	if len(b) < (2 + 2 + ClockIdentityLen) {
@@ -137,4 +137,32 @@ func (p *IntervalRequestTlv) MarshalBinary() ([]byte, error) {
 	b[13] = uint8(b2i(p.ComputeNeighborRateRatio)<<1 | b2i(p.ComputeNeighborPropDelay)<<2)
 
 	return b, nil
+}
+
+// UnmarshalBinary unmarshals a byte slice into a IntervalRequestTlv.
+//
+// If the byte slice does not contain enough data to unmarshal a valid IntervalRequestTlv,
+// io.ErrUnexpectedEOF is returned.
+func (p *IntervalRequestTlv) UnmarshalBinary(b []byte) error {
+	if len(b) != (IntervalRequestTlvLen) {
+		return io.ErrUnexpectedEOF
+	}
+
+	tlvLen := binary.BigEndian.Uint16(b[2:4])
+	if int(tlvLen) != IntervalRequestTlvLen {
+		return io.ErrUnexpectedEOF
+	}
+
+	// TODO: check message type
+
+	p.LinkDelayInterval = int8(b[10])
+
+	p.TimeSyncInterval = int8(b[11])
+
+	p.AnnounceInterval = int8(b[12])
+
+	p.ComputeNeighborPropDelay = (b[13] & 0x2) != 0
+	p.ComputeNeighborPropDelay = (b[13] & 0x4) != 0
+
+	return nil
 }
