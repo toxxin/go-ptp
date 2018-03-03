@@ -161,7 +161,7 @@ func (p *IntervalRequestTlv) UnmarshalBinary(b []byte) error {
 
 	p.AnnounceInterval = int8(b[12])
 
-	p.ComputeNeighborPropDelay = (b[13] & 0x2) != 0
+	p.ComputeNeighborRateRatio = (b[13] & 0x2) != 0
 	p.ComputeNeighborPropDelay = (b[13] & 0x4) != 0
 
 	return nil
