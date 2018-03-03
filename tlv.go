@@ -144,7 +144,7 @@ func (p *IntervalRequestTlv) MarshalBinary() ([]byte, error) {
 // If the byte slice does not contain enough data to unmarshal a valid IntervalRequestTlv,
 // io.ErrUnexpectedEOF is returned.
 func (p *IntervalRequestTlv) UnmarshalBinary(b []byte) error {
-	if len(b) != (IntervalRequestTlvLen) {
+	if len(b) != (IntervalRequestTlvLen + 4) {
 		return io.ErrUnexpectedEOF
 	}
 
