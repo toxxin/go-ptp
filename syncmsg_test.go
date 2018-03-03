@@ -22,7 +22,7 @@ func TestMarshalSync(t *testing.T) {
 					CorrectionNs:     0,
 					CorrectionSubNs:  0,
 					ClockIdentity:    0x000af7fffe42a753,
-					PortID:           2,
+					PortNumber:       2,
 					SequenceID:       55330,
 					LogMessagePeriod: -4,
 				},

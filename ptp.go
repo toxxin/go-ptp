@@ -56,8 +56,8 @@ const (
 	CorrectionSubNanoSecLen    = 2
 	CorrectionFullLen          = CorrectionNanoSecLen + CorrectionSubNanoSecLen
 	ClockIdentityLen           = 8
-	SourcePortIDLen            = 2
-	PortIdentityLen            = ClockIdentityLen + SourcePortIDLen
+	SourcePortNumberLen        = 2
+	PortIdentityLen            = ClockIdentityLen + SourcePortNumberLen
 	SequenceIDLen              = 2
 	OriginTimestampSecLen      = 6
 	OriginTimestampNanoSecLen  = 4

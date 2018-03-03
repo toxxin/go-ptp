@@ -79,7 +79,7 @@ type Header struct {
 	CorrectionNs     uint64
 	CorrectionSubNs  uint16
 	ClockIdentity    uint64
-	PortID           uint16
+	PortNumber       uint16
 	SequenceID       uint16
 	LogMessagePeriod int8
 }
@@ -140,9 +140,9 @@ func (h *Header) MarshalBinary() ([]byte, error) {
 
 	// Source port
 	sourcePortSlice := make([]byte, 2)
-	binary.BigEndian.PutUint16(sourcePortSlice, h.PortID)
-	copy(b[offset:offset+SourcePortIDLen], sourcePortSlice)
-	offset += SourcePortIDLen
+	binary.BigEndian.PutUint16(sourcePortSlice, h.PortNumber)
+	copy(b[offset:offset+SourcePortNumberLen], sourcePortSlice)
+	offset += SourcePortNumberLen
 
 	// Sequence ID
 	sequenceIDSlice := make([]byte, 2)
@@ -247,7 +247,7 @@ func (h *Header) UnmarshalBinary(b []byte) error {
 	h.CorrectionSubNs = binary.BigEndian.Uint16(b[14:16])
 
 	h.ClockIdentity = binary.BigEndian.Uint64(b[20:28])
-	h.PortID = binary.BigEndian.Uint16(b[28:30])
+	h.PortNumber = binary.BigEndian.Uint16(b[28:30])
 
 	h.SequenceID = binary.BigEndian.Uint16(b[30:32])
 	h.LogMessagePeriod = int8(b[33])

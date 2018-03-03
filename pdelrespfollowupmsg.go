@@ -10,7 +10,7 @@ type PDelRespFollowUpMsg struct {
 	Header
 	OriginTimestamp time.Time
 	ClockIdentity   uint64
-	PortID          uint16
+	PortNumber      uint16
 }
 
 // MarshalBinary allocates a byte slice and marshals a Frame into binary form.
@@ -40,7 +40,7 @@ func (t *PDelRespFollowUpMsg) MarshalBinary() ([]byte, error) {
 	offset += 8
 
 	portIDSlice := make([]byte, 2)
-	binary.BigEndian.PutUint16(portIDSlice, t.PortID)
+	binary.BigEndian.PutUint16(portIDSlice, t.PortNumber)
 	copy(b[offset:offset+2], portIDSlice)
 
 	return b, nil
