@@ -81,6 +81,7 @@ const (
 	PDelayRespPayloadLen         = OriginTimestampFullLen + PortIdentityLen
 	PDelayRespFollowUpPayloadLen = OriginTimestampFullLen + PortIdentityLen
 	AnnouncePayloadLen           = 30
+	SignalingPayloadLen          = 10
 	GMClockQualityPayloadLen     = 4
 	// SignalingPayloadLen depends on TLVs
 )
