@@ -113,3 +113,47 @@ func TestUnmarshalPathTraceTlv(t *testing.T) {
 		})
 	}
 }
+
+func TestIntervalRequestTlv(t *testing.T) {
+	var tests = []struct {
+		desc string
+		m    *IntervalRequestTlv
+		b    []byte
+		err  error
+	}{
+		{
+			desc: "Correct TLV values",
+			m: &IntervalRequestTlv{
+				LinkDelayInterval:        127,
+				TimeSyncInterval:         127,
+				AnnounceInterval:         127,
+				ComputeNeighborRateRatio: true,
+				ComputeNeighborPropDelay: false,
+			},
+			b: append([]byte{0x0, 0x3, 0x0, 0xc,
+				0x0, 0x80, 0xc2, 0x0, 0x0, 0x2,
+				0x7f, 0x7f, 0x7f,
+				// Flags
+				0x2,
+				// Reserved
+				0x0, 0x0}),
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.desc, func(t *testing.T) {
+			b, err := tt.m.MarshalBinary()
+			if err != nil {
+				if want, got := tt.err, err; want != got {
+					t.Fatalf("unexpected error: %v != %v", want, got)
+				}
+
+				return
+			}
+
+			if want, got := tt.b, b; !bytes.Equal(want, got) {
+				t.Fatalf("unexpected Frame bytes:\n- want: %#v\n-  got: %#v", want, got)
+			}
+		})
+	}
+}

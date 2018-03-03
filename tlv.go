@@ -115,7 +115,7 @@ type IntervalRequestTlv struct {
 // MarshalBinary allocates a byte slice and marshals a Frame into binary form.
 func (p *IntervalRequestTlv) MarshalBinary() ([]byte, error) {
 
-	b := make([]byte, IntervalRequestTlvLen)
+	b := make([]byte, IntervalRequestTlvLen+4)
 
 	// TLV type
 	binary.BigEndian.PutUint16(b[:2], uint16(OrganizationExtension))
