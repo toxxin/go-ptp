@@ -77,7 +77,7 @@ const (
 	DelayReqPayloadLen           = OriginTimestampFullLen
 	FollowUpPayloadLen           = OriginTimestampFullLen
 	DelayRespPayloadLen          = OriginTimestampFullLen + PortIdentityLen
-	PDelayReqPayloadLen          = OriginTimestampFullLen + Reserved10
+	PDelayReqPayloadLen          = Reserved10 + Reserved10
 	PDelayRespPayloadLen         = OriginTimestampFullLen + PortIdentityLen
 	PDelayRespFollowUpPayloadLen = OriginTimestampFullLen + PortIdentityLen
 	AnnouncePayloadLen           = 30
