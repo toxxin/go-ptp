@@ -228,15 +228,15 @@ func (t *AnnounceMsg) UnmarshalBinary(b []byte) error {
 	if len(b) < HeaderLen+AnnouncePayloadLen {
 		return io.ErrUnexpectedEOF
 	}
-	err := t.Header.UnmarshalBinary(b[:34])
+	err := t.Header.UnmarshalBinary(b[:HeaderLen])
 	if err != nil {
 		return err
 	}
 
-	offset := 34
+	offset := HeaderLen
 
 	// Reserved 10 bytes
-	offset += 10
+	offset += Reserved10
 
 	utcoffset := binary.BigEndian.Uint16(b[offset : offset+2])
 	t.CurrentUtcOffset = int16(utcoffset)
