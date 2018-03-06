@@ -47,10 +47,18 @@ func (t *SyncMsg) MarshalBinary() ([]byte, error) {
 // If the byte slice does not contain enough data to unmarshal a valid SyncMsg,
 // io.ErrUnexpectedEOF is returned.
 func (t *SyncMsg) UnmarshalBinary(b []byte) error {
-	// Must contain type and length values
 	if len(b) < HeaderLen+SyncPayloadLen {
 		return io.ErrUnexpectedEOF
 	}
 
-	return ErrInvalidFrame
+	err := t.Header.UnmarshalBinary(b[:HeaderLen])
+	if err != nil {
+		return err
+	}
+
+	if t.OriginTimestamp, err = originTimestamp2Time(b[HeaderLen:]); err != nil {
+		return err
+	}
+
+	return nil
 }
