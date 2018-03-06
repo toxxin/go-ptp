@@ -27,8 +27,7 @@ func (t *DelReqMsg) MarshalBinary() ([]byte, error) {
 
 	copy(b[:HeaderLen], headerSlice)
 
-	// Origin timestamp
-	// Assume 0x0 value for testing
+	copy(b[HeaderLen:], time2OriginTimestamp(t.OriginTimestamp))
 
 	return b, nil
 }
