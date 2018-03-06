@@ -37,10 +37,18 @@ func (t *DelReqMsg) MarshalBinary() ([]byte, error) {
 // If the byte slice does not contain enough data to unmarshal a valid DelReqMsg,
 // io.ErrUnexpectedEOF is returned.
 func (t *DelReqMsg) UnmarshalBinary(b []byte) error {
-	// Must contain type and length values
 	if len(b) < HeaderLen+DelayReqPayloadLen {
 		return io.ErrUnexpectedEOF
 	}
 
-	return ErrInvalidFrame
+	err := t.Header.UnmarshalBinary(b[:HeaderLen])
+	if err != nil {
+		return err
+	}
+
+	if t.OriginTimestamp, err = originTimestamp2Time(b[HeaderLen:]); err != nil {
+		return err
+	}
+
+	return nil
 }
