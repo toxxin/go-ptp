@@ -233,6 +233,10 @@ func (t *AnnounceMsg) UnmarshalBinary(b []byte) error {
 		return err
 	}
 
+	if t.Header.MessageType != AnnounceMsgType {
+		return ErrInvalidMsgType
+	}
+
 	offset := HeaderLen
 
 	// Reserved 10 bytes
