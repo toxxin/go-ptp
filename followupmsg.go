@@ -47,10 +47,19 @@ func (t *FollowUpMsg) MarshalBinary() ([]byte, error) {
 // If the byte slice does not contain enough data to unmarshal a valid FollowUpMsg,
 // io.ErrUnexpectedEOF is returned.
 func (t *FollowUpMsg) UnmarshalBinary(b []byte) error {
-	// Must contain type and length values
 	if len(b) < HeaderLen+FollowUpPayloadLen {
 		return io.ErrUnexpectedEOF
 	}
+	err := t.Header.UnmarshalBinary(b[:HeaderLen])
+	if err != nil {
+		return err
+	}
 
-	return ErrInvalidFrame
+	offset := HeaderLen
+
+	if t.PreciseOriginTimestamp, err = originTimestamp2Time(b[HeaderLen:]); err != nil {
+		return err
+	}
+
+	return nil
 }
