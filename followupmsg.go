@@ -55,6 +55,10 @@ func (t *FollowUpMsg) UnmarshalBinary(b []byte) error {
 		return err
 	}
 
+	if t.Header.MessageType != FollowUpMsgType {
+		return ErrInvalidMsgType
+	}
+
 	if t.PreciseOriginTimestamp, err = originTimestamp2Time(b[HeaderLen:]); err != nil {
 		return err
 	}

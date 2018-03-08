@@ -56,6 +56,10 @@ func (t *SyncMsg) UnmarshalBinary(b []byte) error {
 		return err
 	}
 
+	if t.Header.MessageType != SyncMsgType {
+		return ErrInvalidMsgType
+	}
+
 	if t.OriginTimestamp, err = originTimestamp2Time(b[HeaderLen:]); err != nil {
 		return err
 	}
