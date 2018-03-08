@@ -121,3 +121,21 @@ func originTimestamp2Time(b []byte) (time.Time, error) {
 
 	return time.Unix(int64(sec), int64(nsec)), nil
 }
+
+const UScaledNsLen = 12
+
+type UScaledNs struct {
+	ms int32
+	ls uint64
+}
+
+func NewUScaledNs(b []byte) (*UScaledNs, error) {
+	if len(b) != UScaledNsLen {
+		return nil, io.ErrUnexpectedEOF
+	}
+
+	return &UScaledNs{
+		ms: int32(binary.BigEndian.Uint32(b[:4])),
+		ls: binary.BigEndian.Uint64(b[4:]),
+	}, nil
+}
