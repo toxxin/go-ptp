@@ -55,8 +55,6 @@ func (t *FollowUpMsg) UnmarshalBinary(b []byte) error {
 		return err
 	}
 
-	offset := HeaderLen
-
 	if t.PreciseOriginTimestamp, err = originTimestamp2Time(b[HeaderLen:]); err != nil {
 		return err
 	}
