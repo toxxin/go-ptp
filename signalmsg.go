@@ -1,6 +1,9 @@
 package ptp
 
-import "encoding/binary"
+import (
+	"encoding/binary"
+	"io"
+)
 
 // SignalingMsg ...
 type SignalingMsg struct {
@@ -45,4 +48,32 @@ func (t *SignalingMsg) MarshalBinary() ([]byte, error) {
 	copy(b[offset:offset+IntervalRequestTlvLen], tlvSlice)
 
 	return b, nil
+}
+
+// UnmarshalBinary unmarshals a byte slice into a Frame.
+func (t *SignalingMsg) UnmarshalBinary(b []byte) error {
+	if len(b) < HeaderLen+AnnouncePayloadLen {
+		return io.ErrUnexpectedEOF
+	}
+	err := t.Header.UnmarshalBinary(b[:HeaderLen])
+	if err != nil {
+		return err
+	}
+
+	if t.Header.MessageType != SignalingMsgType {
+		return ErrInvalidMsgType
+	}
+
+	offset := HeaderLen
+
+	t.ClockIdentity = binary.BigEndian.Uint64(b[offset : offset+ClockIdentityLen])
+	offset += ClockIdentityLen
+	t.PortNumber = binary.BigEndian.Uint16(b[offset : offset+SourcePortNumberLen])
+	offset += SourcePortNumberLen
+
+	if err = t.IntervalRequestTlv.UnmarshalBinary(b[offset:]); err != nil {
+		return err
+	}
+
+	return nil
 }
