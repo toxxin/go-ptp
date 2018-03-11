@@ -166,3 +166,11 @@ func (p *IntervalRequestTlv) UnmarshalBinary(b []byte) error {
 
 	return nil
 }
+
+// CsnTlv ...
+type CsnTlv struct {
+	upstreamTxTime    UScaledNs
+	neighborRateRatio int32
+	neighborPropDelay UScaledNs
+	delayAsymmetry    UScaledNs
+}
