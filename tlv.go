@@ -9,6 +9,7 @@ import (
 const (
 	FollowUpTlvLen        = 28
 	IntervalRequestTlvLen = 12
+	CsnTlvLen             = 46
 )
 
 var organizationID = []byte{0x0, 0x80, 0xc2}
@@ -169,8 +170,50 @@ func (p *IntervalRequestTlv) UnmarshalBinary(b []byte) error {
 
 // CsnTlv ...
 type CsnTlv struct {
-	upstreamTxTime    UScaledNs
-	neighborRateRatio int32
-	neighborPropDelay UScaledNs
-	delayAsymmetry    UScaledNs
+	UpstreamTxTime    UScaledNs
+	NeighborRateRatio int32
+	NeighborPropDelay UScaledNs
+	DelayAsymmetry    UScaledNs
+}
+
+// MarshalBinary allocates a byte slice and marshals a Frame into binary form.
+func (p *CsnTlv) MarshalBinary() ([]byte, error) {
+
+	b := make([]byte, CsnTlvLen+4)
+
+	// TLV type
+	binary.BigEndian.PutUint16(b[:2], uint16(OrganizationExtension))
+
+	// TLV length
+	binary.BigEndian.PutUint16(b[2:4], uint16(IntervalRequestTlvLen))
+
+	copy(b[4:7], organizationID)
+
+	// organizationSubType
+	copy(b[7:10], []byte{0x0, 0x0, 0x3})
+
+	tx, err := p.UpstreamTxTime.MarshalBinary()
+	if err != nil {
+		return nil, err
+	}
+
+	copy(b[10:22], tx)
+
+	binary.BigEndian.PutUint32(b[22:26], uint32(p.NeighborRateRatio))
+
+	nd, err := p.NeighborPropDelay.MarshalBinary()
+	if err != nil {
+		return nil, err
+	}
+
+	copy(b[26:38], nd)
+
+	da, err := p.DelayAsymmetry.MarshalBinary()
+	if err != nil {
+		return nil, err
+	}
+
+	copy(b[38:50], da)
+
+	return b, nil
 }
