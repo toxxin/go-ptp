@@ -141,7 +141,7 @@ func NewUScaledNs(b []byte) (*UScaledNs, error) {
 }
 
 func (p *UScaledNs) MarshalBinary() ([]byte, error) {
-	b := make([]byte, 12)
+	b := make([]byte, UScaledNsLen)
 
 	binary.BigEndian.PutUint16(b[:4], uint16(p.ms))
 

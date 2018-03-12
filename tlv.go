@@ -197,23 +197,28 @@ func (p *CsnTlv) MarshalBinary() ([]byte, error) {
 		return nil, err
 	}
 
-	copy(b[10:22], tx)
+	offset := 10
+
+	copy(b[offset:offset+UScaledNsLen], tx)
+	offset += UScaledNsLen
 
 	binary.BigEndian.PutUint32(b[22:26], uint32(p.NeighborRateRatio))
+	offset += 4
 
 	nd, err := p.NeighborPropDelay.MarshalBinary()
 	if err != nil {
 		return nil, err
 	}
 
-	copy(b[26:38], nd)
+	copy(b[offset:offset+UScaledNsLen], nd)
+	offset += UScaledNsLen
 
 	da, err := p.DelayAsymmetry.MarshalBinary()
 	if err != nil {
 		return nil, err
 	}
 
-	copy(b[38:50], da)
+	copy(b[offset:offset+UScaledNsLen], da)
 
 	return b, nil
 }
