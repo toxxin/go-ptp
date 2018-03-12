@@ -140,6 +140,15 @@ func (p *IntervalRequestTlv) MarshalBinary() ([]byte, error) {
 	return b, nil
 }
 
+// FollowUpTlv ...
+type FollowUpTlv struct {
+	// OrganizationSubType = 3
+	CumulativeScaledRateOffset int32
+	GmTimeBaseIndicator        uint16
+	lastGmPhaseChange          UScaledNs
+	scaledLastGmFreqChange     int32
+}
+
 // UnmarshalBinary unmarshals a byte slice into a IntervalRequestTlv.
 //
 // If the byte slice does not contain enough data to unmarshal a valid IntervalRequestTlv,
