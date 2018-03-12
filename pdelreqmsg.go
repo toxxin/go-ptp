@@ -49,6 +49,10 @@ func (t *PDelReqMsg) UnmarshalBinary(b []byte) error {
 		return err
 	}
 
+	if t.Header.MessageType != PDelayReqMsgType {
+		return ErrInvalidMsgType
+	}
+
 	// All the rest 20 bytes are reserved. Keep them zero values.
 
 	return nil
