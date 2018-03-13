@@ -214,6 +214,39 @@ func (p *FollowUpTlv) MarshalBinary() ([]byte, error) {
 	return b, nil
 }
 
+// UnmarshalBinary unmarshals a byte slice into a FollowUpTlv.
+//
+// If the byte slice does not contain enough data to unmarshal a valid FollowUpTlv,
+// io.ErrUnexpectedEOF is returned.
+func (p *FollowUpTlv) UnmarshalBinary(b []byte) error {
+
+	var err error
+
+	if len(b) != (FollowUpTlvLen + 4) {
+		return io.ErrUnexpectedEOF
+	}
+
+	tlvLen := binary.BigEndian.Uint16(b[2:4])
+	if int(tlvLen) != FollowUpTlvLen {
+		return io.ErrUnexpectedEOF
+	}
+
+	// TODO: check message type
+
+	p.CumulativeScaledRateOffset = int32(binary.BigEndian.Uint32(b[10:14]))
+
+	p.GmTimeBaseIndicator = binary.BigEndian.Uint16(b[14:16])
+
+	p.LastGmPhaseChange, err = NewUScaledNs(b[16:28])
+	if err != nil {
+		return err
+	}
+
+	p.ScaledLastGmFreqChange = int32(binary.BigEndian.Uint32(b[28:32]))
+
+	return nil
+}
+
 // CsnTlv ...
 type CsnTlv struct {
 	UpstreamTxTime    UScaledNs
