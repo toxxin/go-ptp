@@ -129,12 +129,12 @@ type UScaledNs struct {
 	ls uint64
 }
 
-func NewUScaledNs(b []byte) (*UScaledNs, error) {
+func NewUScaledNs(b []byte) (UScaledNs, error) {
 	if len(b) != UScaledNsLen {
-		return nil, io.ErrUnexpectedEOF
+		return UScaledNs{}, io.ErrUnexpectedEOF
 	}
 
-	return &UScaledNs{
+	return UScaledNs{
 		ms: int32(binary.BigEndian.Uint32(b[:4])),
 		ls: binary.BigEndian.Uint64(b[4:]),
 	}, nil
