@@ -140,15 +140,6 @@ func (p *IntervalRequestTlv) MarshalBinary() ([]byte, error) {
 	return b, nil
 }
 
-// FollowUpTlv ...
-type FollowUpTlv struct {
-	// OrganizationSubType = 3
-	CumulativeScaledRateOffset int32
-	GmTimeBaseIndicator        uint16
-	lastGmPhaseChange          UScaledNs
-	scaledLastGmFreqChange     int32
-}
-
 // UnmarshalBinary unmarshals a byte slice into a IntervalRequestTlv.
 //
 // If the byte slice does not contain enough data to unmarshal a valid IntervalRequestTlv,
@@ -175,6 +166,52 @@ func (p *IntervalRequestTlv) UnmarshalBinary(b []byte) error {
 	p.ComputeNeighborPropDelay = (b[13] & 0x4) != 0
 
 	return nil
+}
+
+// FollowUpTlv ...
+type FollowUpTlv struct {
+	// OrganizationSubType = 3
+	CumulativeScaledRateOffset int32
+	GmTimeBaseIndicator        uint16
+	LastGmPhaseChange          UScaledNs
+	ScaledLastGmFreqChange     int32
+}
+
+// MarshalBinary allocates a byte slice and marshals a Frame into binary form.
+func (p *FollowUpTlv) MarshalBinary() ([]byte, error) {
+
+	b := make([]byte, FollowUpTlvLen+4)
+
+	// TLV type
+	binary.BigEndian.PutUint16(b[:2], uint16(OrganizationExtension))
+
+	// TLV length
+	binary.BigEndian.PutUint16(b[2:4], uint16(IntervalRequestTlvLen))
+
+	copy(b[4:7], organizationID)
+
+	// organizationSubType
+	copy(b[7:10], []byte{0x0, 0x0, 0x1})
+	offset := 10
+
+	binary.BigEndian.PutUint32(b[offset:offset+4], uint32(p.CumulativeScaledRateOffset))
+	offset += 4
+
+	binary.BigEndian.PutUint16(b[offset:offset+2], p.GmTimeBaseIndicator)
+	offset += 2
+
+	lastGM, err := p.LastGmPhaseChange.MarshalBinary()
+	if err != nil {
+		return nil, err
+	}
+	copy(b[offset:offset+UScaledNsLen], lastGM)
+	offset += UScaledNsLen
+
+	binary.BigEndian.PutUint32(b[offset:offset+4], uint32(p.ScaledLastGmFreqChange))
+
+	copy(b[:], []byte{0x0, 0x0, 0x1})
+
+	return b, nil
 }
 
 // CsnTlv ...
