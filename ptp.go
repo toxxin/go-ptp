@@ -17,6 +17,7 @@ var (
 	ErrInvalidClockAccuracy = errors.New("Invalid clock accuracy")
 	ErrInvalidTimeSource    = errors.New("Invalid time source")
 	ErrInvalidTlvType       = errors.New("Invalid TLV type")
+	ErrInvalidTlvOrgId      = errors.New("Invalid TLV organizationId")
 )
 
 // MsgType Type

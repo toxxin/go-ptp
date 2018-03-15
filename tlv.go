@@ -1,6 +1,7 @@
 package ptp
 
 import (
+	"bytes"
 	"encoding/binary"
 	"io"
 )
@@ -98,6 +99,10 @@ func (p *PathTraceTlv) UnmarshalBinary(b []byte) error {
 		return ErrInvalidTlvType
 	}
 
+	if !bytes.Equal(b[4:7], organizationID) {
+		return ErrInvalidTlvOrgId
+	}
+
 	pathSeq := make([]uint64, tlvLen/8)
 	for i := range pathSeq {
 		pathSeq[i] = binary.BigEndian.Uint64(b[i*8+4 : i*8+8+4])
@@ -162,6 +167,10 @@ func (p *IntervalRequestTlv) UnmarshalBinary(b []byte) error {
 	tlvType := TlvType(binary.BigEndian.Uint16(b[0:2]))
 	if tlvType != OrganizationExtension {
 		return ErrInvalidTlvType
+	}
+
+	if !bytes.Equal(b[4:7], organizationID) {
+		return ErrInvalidTlvOrgId
 	}
 
 	p.LinkDelayInterval = int8(b[10])
@@ -242,6 +251,10 @@ func (p *FollowUpTlv) UnmarshalBinary(b []byte) error {
 	tlvType := TlvType(binary.BigEndian.Uint16(b[0:2]))
 	if tlvType != FollowUpTlvLen {
 		return ErrInvalidTlvType
+	}
+
+	if !bytes.Equal(b[4:7], organizationID) {
+		return ErrInvalidTlvOrgId
 	}
 
 	p.CumulativeScaledRateOffset = int32(binary.BigEndian.Uint32(b[10:14]))
