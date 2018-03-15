@@ -99,10 +99,6 @@ func (p *PathTraceTlv) UnmarshalBinary(b []byte) error {
 		return ErrInvalidTlvType
 	}
 
-	if !bytes.Equal(b[4:7], organizationID) {
-		return ErrInvalidTlvOrgId
-	}
-
 	pathSeq := make([]uint64, tlvLen/8)
 	for i := range pathSeq {
 		pathSeq[i] = binary.BigEndian.Uint64(b[i*8+4 : i*8+8+4])
