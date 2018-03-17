@@ -245,7 +245,7 @@ func (p *FollowUpTlv) UnmarshalBinary(b []byte) error {
 	}
 
 	tlvType := TlvType(binary.BigEndian.Uint16(b[0:2]))
-	if tlvType != FollowUpTlvLen {
+	if tlvType != OrganizationExtension {
 		return ErrInvalidTlvType
 	}
 
