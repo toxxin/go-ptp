@@ -169,6 +169,11 @@ func (p *IntervalRequestTlv) UnmarshalBinary(b []byte) error {
 		return ErrInvalidTlvOrgId
 	}
 
+	// The value of organizationSubType is 2
+	if !bytes.Equal([]byte{0x0, 0x0, 0x2}, b[7:10]) {
+		return ErrInvalidTlvOrgSubType
+	}
+
 	p.LinkDelayInterval = int8(b[10])
 
 	p.TimeSyncInterval = int8(b[11])
@@ -251,6 +256,11 @@ func (p *FollowUpTlv) UnmarshalBinary(b []byte) error {
 
 	if !bytes.Equal(b[4:7], organizationID) {
 		return ErrInvalidTlvOrgId
+	}
+
+	// The value of organizationSubType is 1
+	if !bytes.Equal([]byte{0x0, 0x0, 0x1}, b[7:10]) {
+		return ErrInvalidTlvOrgSubType
 	}
 
 	p.CumulativeScaledRateOffset = int32(binary.BigEndian.Uint32(b[10:14]))
@@ -348,7 +358,10 @@ func (p *CsnTlv) UnmarshalBinary(b []byte) error {
 		return ErrInvalidTlvOrgId
 	}
 
-	// TODO: check organizationSubType == 0x3
+	// The value of organizationSubType is 3
+	if !bytes.Equal([]byte{0x0, 0x0, 0x3}, b[7:10]) {
+		return ErrInvalidTlvOrgSubType
+	}
 
 	offset := 10
 
