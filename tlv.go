@@ -321,3 +321,60 @@ func (p *CsnTlv) MarshalBinary() ([]byte, error) {
 
 	return b, nil
 }
+
+// UnmarshalBinary unmarshals a byte slice into a FollowUpTlv.
+//
+// If the byte slice does not contain enough data to unmarshal a valid FollowUpTlv,
+// io.ErrUnexpectedEOF is returned.
+func (p *CsnTlv) UnmarshalBinary(b []byte) error {
+
+	var err error
+
+	if len(b) != (CsnTlvLen + 4) {
+		return io.ErrUnexpectedEOF
+	}
+
+	tlvLen := binary.BigEndian.Uint16(b[2:4])
+	if int(tlvLen) != CsnTlvLen {
+		return io.ErrUnexpectedEOF
+	}
+
+	tlvType := TlvType(binary.BigEndian.Uint16(b[0:2]))
+	if tlvType != OrganizationExtension {
+		return ErrInvalidTlvType
+	}
+
+	if !bytes.Equal(b[4:7], organizationID) {
+		return ErrInvalidTlvOrgId
+	}
+
+	// TODO: check organizationSubType == 0x3
+
+	offset := 10
+
+	err = p.UpstreamTxTime.UnmarshalBinary(b[offset : offset+UScaledNsLen])
+	if err != nil {
+		return err
+	}
+
+	offset += UScaledNsLen
+
+	p.NeighborRateRatio = int32(binary.BigEndian.Uint32(b[offset : offset+4]))
+	offset += 4
+
+	err = p.NeighborPropDelay.UnmarshalBinary(b[offset : offset+UScaledNsLen])
+	if err != nil {
+		return err
+	}
+
+	offset += UScaledNsLen
+
+	err = p.DelayAsymmetry.UnmarshalBinary(b[offset : offset+UScaledNsLen])
+	if err != nil {
+		return err
+	}
+
+	offset += UScaledNsLen
+
+	return nil
+}
