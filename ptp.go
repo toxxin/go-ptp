@@ -141,6 +141,7 @@ func NewUScaledNs(b []byte) (UScaledNs, error) {
 	}, nil
 }
 
+// MarshalBinary allocates a byte slice and marshals a Frame into binary form.
 func (p *UScaledNs) MarshalBinary() ([]byte, error) {
 	b := make([]byte, UScaledNsLen)
 
@@ -149,4 +150,19 @@ func (p *UScaledNs) MarshalBinary() ([]byte, error) {
 	binary.BigEndian.PutUint64(b[4:], p.ls)
 
 	return b, nil
+}
+
+// UnmarshalBinary unmarshals a byte slice into a UScaledNs.
+//
+// If the byte slice does not contain enough data to unmarshal a valid UScaledNs,
+// io.ErrUnexpectedEOF is returned.
+func (p *UScaledNs) UnmarshalBinary(b []byte) error {
+	if len(b) != UScaledNsLen {
+		return io.ErrUnexpectedEOF
+	}
+
+	p.ms = int32(binary.BigEndian.Uint32(b[:4]))
+	p.ls = binary.BigEndian.Uint64(b[4:])
+
+	return nil
 }
