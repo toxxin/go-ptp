@@ -70,6 +70,29 @@ func (f *Flags) MarshalBinary() uint16 {
 		b2i(f.Security)<<15)
 }
 
+func (f *Flags) UnmarshalBinary(b []byte) error {
+	if len(b) != 2 {
+		return io.ErrUnexpectedEOF
+	}
+
+	flags := binary.BigEndian.Uint16(b[:])
+
+	f.LI61 = flags&lI61Bit != 0
+	f.LI59 = flags&lI59Bit != 0
+	f.UtcReasonable = flags&utcReasonableBit != 0
+	f.TimeScale = flags&timeScaleBit != 0
+	f.TimeTraceable = flags&timeTraceableBit != 0
+	f.FrequencyTraceable = flags&frequencyTraceableBit != 0
+	f.AlternateMaster = flags&alternateMasterBit != 0
+	f.TwoSteps = flags&twoStepsBit != 0
+	f.Unicast = flags&unicastBit != 0
+	f.ProfileSpecific1 = flags&profileSpecific1Bit != 0
+	f.ProfileSpecific2 = flags&profileSpecific2Bit != 0
+	f.Security = flags&securityBit != 0
+
+	return nil
+}
+
 // Header struct describes the header of a PTP message.
 type Header struct {
 	Flags
@@ -210,34 +233,7 @@ func (h *Header) UnmarshalBinary(b []byte) error {
 
 	h.MessageLength = binary.BigEndian.Uint16(b[2:4])
 
-	h.Flags = Flags{
-		Security:           false,
-		ProfileSpecific2:   false,
-		ProfileSpecific1:   false,
-		Unicast:            false,
-		TwoSteps:           false,
-		AlternateMaster:    false,
-		FrequencyTraceable: false,
-		TimeTraceable:      false,
-		UtcReasonable:      false,
-		LI59:               false,
-		LI61:               false,
-	}
-
-	flags := binary.BigEndian.Uint16(b[4:6])
-
-	h.Flags.LI61 = flags&lI61Bit != 0
-	h.Flags.LI59 = flags&lI59Bit != 0
-	h.Flags.UtcReasonable = flags&utcReasonableBit != 0
-	h.Flags.TimeScale = flags&timeScaleBit != 0
-	h.Flags.TimeTraceable = flags&timeTraceableBit != 0
-	h.Flags.FrequencyTraceable = flags&frequencyTraceableBit != 0
-	h.Flags.AlternateMaster = flags&alternateMasterBit != 0
-	h.Flags.TwoSteps = flags&twoStepsBit != 0
-	h.Flags.Unicast = flags&unicastBit != 0
-	h.Flags.ProfileSpecific1 = flags&profileSpecific1Bit != 0
-	h.Flags.ProfileSpecific2 = flags&profileSpecific2Bit != 0
-	h.Flags.Security = flags&securityBit != 0
+	h.Flags.UnmarshalBinary(b[4:6])
 
 	// Correct Ns & SubNs
 	tmpSlice := make([]byte, 8)
