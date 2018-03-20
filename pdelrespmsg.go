@@ -31,8 +31,7 @@ func (t *PDelRespMsg) MarshalBinary() ([]byte, error) {
 	copy(b[:HeaderLen], headerSlice)
 	offset := HeaderLen
 
-	tmsSlice := time2OriginTimestamp(t.ReceiveTimestamp)
-	copy(b[offset:offset+OriginTimestampFullLen], tmsSlice)
+	time2OriginTimestamp(t.ReceiveTimestamp, b[offset:offset+OriginTimestampFullLen])
 	offset += OriginTimestampFullLen
 
 	clockIdentitySlice := make([]byte, ClockIdentityLen)

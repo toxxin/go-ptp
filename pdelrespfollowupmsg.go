@@ -31,8 +31,8 @@ func (t *PDelRespFollowUpMsg) MarshalBinary() ([]byte, error) {
 	offset := HeaderLen
 
 	// Origin timestamp
-	tslice := time2OriginTimestamp(t.OriginTimestamp)
-	copy(b[HeaderLen:], tslice)
+	time2OriginTimestamp(t.OriginTimestamp, b[offset:offset+OriginTimestampFullLen])
+	offset += OriginTimestampFullLen
 
 	clockIdentitySlice := make([]byte, ClockIdentityLen)
 	binary.BigEndian.PutUint64(clockIdentitySlice, t.ClockIdentity)

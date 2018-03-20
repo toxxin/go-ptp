@@ -36,8 +36,7 @@ func (t *FollowUpMsg) MarshalBinary() ([]byte, error) {
 	copy(b[:HeaderLen], headerSlice)
 
 	// Origin timestamp
-	tslice := time2OriginTimestamp(t.PreciseOriginTimestamp)
-	copy(b[HeaderLen:], tslice)
+	time2OriginTimestamp(t.PreciseOriginTimestamp, b[HeaderLen:])
 
 	return b, nil
 }

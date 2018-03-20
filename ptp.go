@@ -90,22 +90,23 @@ const (
 
 // time2OriginTimestamp allocates 6+4(sec+nanosec) bytes slice
 // and converts Time into binary form accordingly with ptp timestamp format
-func time2OriginTimestamp(t time.Time) []byte {
+func time2OriginTimestamp(t time.Time, b []byte) error {
+
+	if len(b) != OriginTimestampFullLen {
+		return io.ErrUnexpectedEOF
+	}
 
 	sec := t.Unix()
 	nanosec := t.UnixNano()
 
 	secHexSlice := make([]byte, 8)
-	nanoHexSlice := make([]byte, 4)
 
 	binary.BigEndian.PutUint64(secHexSlice, uint64(sec))
-	binary.BigEndian.PutUint32(nanoHexSlice, uint32(nanosec-sec*1000000000))
+	binary.BigEndian.PutUint32(b[6:], uint32(nanosec-sec*1000000000))
 
-	res := make([]byte, 10)
-	copy(res[:6], secHexSlice[2:])
-	copy(res[6:], nanoHexSlice)
+	copy(b[:6], secHexSlice[2:])
 
-	return res
+	return nil
 }
 
 // originTimestamp2Time converts 6+4(sec+nanosec) bytes slice into Time

@@ -28,7 +28,8 @@ func TestTime2OriginTimestamp(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.desc, func(t *testing.T) {
-			b := time2OriginTimestamp(tt.t)
+			b := make([]byte, 10)
+			time2OriginTimestamp(tt.t, b)
 
 			if want, got := tt.b, b; !bytes.Equal(want, got) {
 				t.Fatalf("unexpected Frame bytes:\n- want: %#v\n-  got: %#v", want, got)
