@@ -140,3 +140,33 @@ func TestUnmarshalHeader(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkMarshalHeader(b *testing.B) {
+	h := Header{
+		MessageType:   PDelayReqMsgType,
+		MessageLength: 44,
+		VersionPTP:    Version2,
+		Flags: Flags{
+			Security:           false,
+			ProfileSpecific2:   false,
+			ProfileSpecific1:   false,
+			Unicast:            false,
+			TwoSteps:           false,
+			AlternateMaster:    false,
+			FrequencyTraceable: false,
+			TimeTraceable:      false,
+			UtcReasonable:      false,
+			LI59:               false,
+			LI61:               false,
+		},
+		CorrectionNs:     0,
+		CorrectionSubNs:  0,
+		ClockIdentity:    0x000af7fffe42a753,
+		PortNumber:       2,
+		SequenceID:       55330,
+		LogMessagePeriod: -4,
+	}
+	for i := 0; i < b.N; i++ {
+		h.MarshalBinary()
+	}
+}
