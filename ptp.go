@@ -167,3 +167,18 @@ func (p *UScaledNs) UnmarshalBinary(b []byte) error {
 
 	return nil
 }
+
+// GetClockIdByMac takes MAC address as a slice and converts it
+// into slice of bytes(EUI-64) in accordance with IEEE 1588v2 spec.
+func GetClockIdByMac(b []byte) ([]byte, error) {
+	if len(b) != 6 {
+		return []byte{}, io.ErrUnexpectedEOF
+	}
+
+	res := make([]byte, ClockIdentityLen)
+
+	copy(res[:3], b[:3])
+	b[3], b[4] = 0xff, 0xfe
+	copy(res[5:], b[3:])
+	return res, nil
+}
