@@ -136,41 +136,29 @@ func (h *Header) MarshalBinary() ([]byte, error) {
 	// Skip reserved byte
 	offset++
 
-	// Flags, hardcoded values so far
-	flagsSlice := make([]byte, 2)
 	flags := (&h.Flags).MarshalBinary()
 
-	binary.BigEndian.PutUint16(flagsSlice, flags)
-	copy(b[offset:offset+FlagsLen], flagsSlice)
-
+	binary.BigEndian.PutUint16(b[offset:offset+FlagsLen], flags)
 	offset += FlagsLen
 
 	// Correction Ns & SubNs
 	correction = (h.CorrectionNs << 2) | (uint64)(h.CorrectionSubNs)
-	correctionSlice := make([]byte, 8)
-	binary.BigEndian.PutUint64(correctionSlice, correction)
-	copy(b[offset:offset+CorrectionFullLen], correctionSlice)
+	binary.BigEndian.PutUint64(b[offset:offset+CorrectionFullLen], correction)
 	offset += CorrectionFullLen
 
 	// Skip 4 reserved bytes
 	offset += 4
 
 	// Clock identity
-	clockIDSlice := make([]byte, 8)
-	binary.BigEndian.PutUint64(clockIDSlice, h.ClockIdentity)
-	copy(b[offset:offset+ClockIdentityLen], clockIDSlice)
+	binary.BigEndian.PutUint64(b[offset:offset+ClockIdentityLen], h.ClockIdentity)
 	offset += ClockIdentityLen
 
 	// Source port
-	sourcePortSlice := make([]byte, 2)
-	binary.BigEndian.PutUint16(sourcePortSlice, h.PortNumber)
-	copy(b[offset:offset+SourcePortNumberLen], sourcePortSlice)
+	binary.BigEndian.PutUint16(b[offset:offset+SourcePortNumberLen], h.PortNumber)
 	offset += SourcePortNumberLen
 
 	// Sequence ID
-	sequenceIDSlice := make([]byte, 2)
-	binary.BigEndian.PutUint16(sequenceIDSlice, h.SequenceID)
-	copy(b[offset:offset+SequenceIDLen], sequenceIDSlice)
+	binary.BigEndian.PutUint16(b[offset:offset+SequenceIDLen], h.SequenceID)
 	offset += SequenceIDLen
 
 	var msgCtrl MsgCtrlType
