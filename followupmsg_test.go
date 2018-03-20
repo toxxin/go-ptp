@@ -122,3 +122,23 @@ func TestUnmarshalFollowUp(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkMarshalFollowUp(b *testing.B) {
+	f := FollowUpMsg{
+		Header: Header{
+			MessageType:      FollowUpMsgType,
+			MessageLength:    HeaderLen + FollowUpPayloadLen,
+			VersionPTP:       Version2,
+			CorrectionNs:     0,
+			CorrectionSubNs:  0,
+			ClockIdentity:    0x000af7fffe42a753,
+			PortNumber:       2,
+			SequenceID:       55330,
+			LogMessagePeriod: -4,
+		},
+		PreciseOriginTimestamp: time.Unix(500, 200),
+	}
+	for i := 0; i < b.N; i++ {
+		f.MarshalBinary()
+	}
+}
