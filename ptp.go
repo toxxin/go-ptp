@@ -88,8 +88,8 @@ const (
 	// SignalingPayloadLen depends on TLVs
 )
 
-// time2OriginTimestamp allocates 6+4(sec+nanosec) bytes slice
-// and converts Time into binary form accordingly with ptp timestamp format
+// time2OriginTimestamp converts time.Time into bytes slice 6+4(sec+nanosec)
+// accordingly with ptp timestamp format.
 func time2OriginTimestamp(t time.Time, b []byte) error {
 
 	if len(b) != OriginTimestampFullLen {
