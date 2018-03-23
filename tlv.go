@@ -311,7 +311,7 @@ func (p *CsnTlv) MarshalBinary() ([]byte, error) {
 	copy(b[offset:offset+UScaledNsLen], tx)
 	offset += UScaledNsLen
 
-	binary.BigEndian.PutUint32(b[22:26], uint32(p.NeighborRateRatio))
+	binary.BigEndian.PutUint32(b[offset:offset+4], uint32(p.NeighborRateRatio))
 	offset += 4
 
 	nd, err := p.NeighborPropDelay.MarshalBinary()
@@ -386,8 +386,6 @@ func (p *CsnTlv) UnmarshalBinary(b []byte) error {
 	if err != nil {
 		return err
 	}
-
-	offset += UScaledNsLen
 
 	return nil
 }
