@@ -2,6 +2,7 @@ package ptp
 
 import (
 	"encoding/binary"
+	"io"
 	"time"
 )
 
@@ -40,4 +41,36 @@ func (t *PDelRespFollowUpMsg) MarshalBinary() ([]byte, error) {
 	binary.BigEndian.PutUint16(b[offset:offset+SourcePortNumberLen], t.PortNumber)
 
 	return b, nil
+}
+
+// UnmarshalBinary unmarshals a byte slice into a PDelRespFollowUpMsg.
+//
+// If the byte slice does not contain enough data to unmarshal a valid PDelRespFollowUpMsg,
+// io.ErrUnexpectedEOF is returned.
+func (t *PDelRespFollowUpMsg) UnmarshalBinary(b []byte) error {
+
+	if len(b) != HeaderLen+PDelayRespFollowUpPayloadLen {
+		return io.ErrUnexpectedEOF
+	}
+
+	err := t.Header.UnmarshalBinary(b[:HeaderLen])
+	if err != nil {
+		return err
+	}
+
+	if t.Header.MessageType != PDelayRespFollowUpMsgType {
+		return ErrInvalidMsgType
+	}
+
+	if t.OriginTimestamp, err = originTimestamp2Time(b[HeaderLen : HeaderLen+OriginTimestampFullLen]); err != nil {
+		return err
+	}
+	offset := HeaderLen + OriginTimestampFullLen
+
+	t.ClockIdentity = binary.BigEndian.Uint64(b[offset : offset+ClockIdentityLen])
+	offset += ClockIdentityLen
+
+	t.PortNumber = binary.BigEndian.Uint16(b[offset : offset+SourcePortNumberLen])
+
+	return nil
 }
