@@ -123,3 +123,21 @@ func TestUnmarshalSync(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkMarshalSync(b *testing.B) {
+	f := SyncMsg{
+		Header: Header{
+			MessageType:      SyncMsgType,
+			CorrectionNs:     0,
+			CorrectionSubNs:  0,
+			ClockIdentity:    0x000af7fffe42a753,
+			PortNumber:       2,
+			SequenceID:       55330,
+			LogMessagePeriod: -4,
+		},
+		OriginTimestamp: time.Unix(500, 200),
+	}
+	for i := 0; i < b.N; i++ {
+		f.MarshalBinary()
+	}
+}
