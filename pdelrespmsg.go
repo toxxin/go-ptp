@@ -34,14 +34,10 @@ func (t *PDelRespMsg) MarshalBinary() ([]byte, error) {
 	time2OriginTimestamp(t.ReceiveTimestamp, b[offset:offset+OriginTimestampFullLen])
 	offset += OriginTimestampFullLen
 
-	clockIdentitySlice := make([]byte, ClockIdentityLen)
-	binary.BigEndian.PutUint64(clockIdentitySlice, t.ClockIdentity)
-	copy(b[offset:offset+ClockIdentityLen], clockIdentitySlice)
+	binary.BigEndian.PutUint64(b[offset:offset+ClockIdentityLen], t.ClockIdentity)
 	offset += ClockIdentityLen
 
-	portIDSlice := make([]byte, 2)
-	binary.BigEndian.PutUint16(portIDSlice, t.PortNumber)
-	copy(b[offset:offset+2], portIDSlice)
+	binary.BigEndian.PutUint16(b[offset:offset+2], t.PortNumber)
 
 	return b, nil
 }
