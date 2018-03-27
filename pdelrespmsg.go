@@ -51,10 +51,29 @@ func (t *PDelRespMsg) MarshalBinary() ([]byte, error) {
 // If the byte slice does not contain enough data to unmarshal a valid PDelRespMsg,
 // io.ErrUnexpectedEOF is returned.
 func (t *PDelRespMsg) UnmarshalBinary(b []byte) error {
-	// Must contain type and length values
+
 	if len(b) < HeaderLen+PDelayRespPayloadLen {
 		return io.ErrUnexpectedEOF
 	}
+
+	err := t.Header.UnmarshalBinary(b[:HeaderLen])
+	if err != nil {
+		return err
+	}
+
+	if t.Header.MessageType != PDelayRespMsgType {
+		return ErrInvalidMsgType
+	}
+
+	if t.ReceiveTimestamp, err = originTimestamp2Time(b[HeaderLen : HeaderLen+OriginTimestampFullLen]); err != nil {
+		return err
+	}
+	offset := HeaderLen + OriginTimestampFullLen
+
+	t.ClockIdentity = binary.BigEndian.Uint64(b[offset : offset+ClockIdentityLen])
+	offset += ClockIdentityLen
+
+	t.PortNumber = binary.BigEndian.Uint16(b[offset : offset+SourcePortNumberLen])
 
 	return ErrInvalidFrame
 }
