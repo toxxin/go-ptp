@@ -221,7 +221,7 @@ func (h *Header) UnmarshalBinary(b []byte) error {
 
 	h.MessageLength = binary.BigEndian.Uint16(b[2:4])
 
-	h.Flags.UnmarshalBinary(b[4:6])
+	h.Flags.UnmarshalBinary(b[6:8])
 
 	// Correct Ns & SubNs
 	tmpSlice := make([]byte, 8)
