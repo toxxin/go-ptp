@@ -36,6 +36,21 @@ func TestMarshalFollowUp(t *testing.T) {
 				0x0, 0xa, 0xf7, 0xff, 0xfe, 0x42, 0xa7, 0x53, 0x0, 0x2, 0xd8, 0x22, 0x2, 0xfc,
 				0x0, 0x0, 0x0, 0x0, 0x1, 0xf4, 0x0, 0x0, 0x0, 0xc8}),
 		},
+		{
+			desc: "Invalid message type",
+			m: &FollowUpMsg{
+				Header: Header{
+					MessageType:      SyncMsgType,
+					CorrectionNs:     0,
+					CorrectionSubNs:  0,
+					ClockIdentity:    0x000af7fffe42a753,
+					PortNumber:       2,
+					SequenceID:       55330,
+					LogMessagePeriod: -4,
+				},
+			},
+			err: ErrInvalidMsgType,
+		},
 	}
 
 	for _, tt := range tests {
