@@ -52,7 +52,7 @@ func (t *PDelRespMsg) MarshalBinary() ([]byte, error) {
 // io.ErrUnexpectedEOF is returned.
 func (t *PDelRespMsg) UnmarshalBinary(b []byte) error {
 
-	if len(b) < HeaderLen+PDelayRespPayloadLen {
+	if len(b) != HeaderLen+PDelayRespPayloadLen {
 		return io.ErrUnexpectedEOF
 	}
 
@@ -75,5 +75,5 @@ func (t *PDelRespMsg) UnmarshalBinary(b []byte) error {
 
 	t.PortNumber = binary.BigEndian.Uint16(b[offset : offset+SourcePortNumberLen])
 
-	return ErrInvalidFrame
+	return nil
 }
