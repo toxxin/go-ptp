@@ -21,6 +21,10 @@ func (t *PDelRespMsg) MarshalBinary() ([]byte, error) {
 		return nil, ErrInvalidMsgType
 	}
 
+	if t.Header.MessageLength == 0 {
+		t.Header.MessageLength = HeaderLen + PDelayRespPayloadLen
+	}
+
 	b := make([]byte, HeaderLen+PDelayRespPayloadLen)
 
 	headerSlice, err := t.Header.MarshalBinary()
