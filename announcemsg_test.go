@@ -59,6 +59,35 @@ func TestMarshalAnnounce(t *testing.T) {
 				0x0, 0x8, 0x0, 0x0,
 			}),
 		},
+		{
+			desc: "Invalid message type",
+			m: &AnnounceMsg{
+				Header: Header{
+					MessageType:      SyncMsgType,
+					MessageLength:    HeaderLen + AnnouncePayloadLen,
+					VersionPTP:       Version2,
+					CorrectionNs:     0,
+					CorrectionSubNs:  0,
+					ClockIdentity:    0x000af7fffe42a753,
+					PortNumber:       2,
+					SequenceID:       55330,
+					LogMessagePeriod: 0,
+				},
+				GMClockQuality: GMClockQuality{
+					ClockClass:    PrimarySyncRefClass,
+					ClockAccuracy: ClockAccuracy100ns,
+					ClockVariance: 200,
+				},
+				CurrentUtcOffset: 36,
+				GMPriority1:      128,
+				GMPriority2:      128,
+				GMIdentity:       0x001d7ffffe80024a,
+				StepsRemoved:     0,
+				TimeSource:       TimeSourceGPS,
+				PathTraceTlv:     PathTraceTlv{},
+			},
+			err: ErrInvalidMsgType,
+		},
 	}
 
 	for _, tt := range tests {
