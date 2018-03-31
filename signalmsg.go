@@ -34,7 +34,7 @@ func (t *SignalingMsg) MarshalBinary() ([]byte, error) {
 		return nil, err
 	}
 
-	b := make([]byte, HeaderLen+SignalingPayloadLen+IntervalRequestTlvLen)
+	b := make([]byte, HeaderLen+SignalingPayloadLen+IntervalRequestTlvLen+4)
 
 	copy(b[:HeaderLen], headerSlice)
 	offset := HeaderLen
@@ -42,10 +42,10 @@ func (t *SignalingMsg) MarshalBinary() ([]byte, error) {
 	binary.BigEndian.PutUint64(b[offset:offset+ClockIdentityLen], t.ClockIdentity)
 	offset += ClockIdentityLen
 
-	binary.BigEndian.PutUint16(b[offset:offset+2], t.PortNumber)
-	offset += 2
+	binary.BigEndian.PutUint16(b[offset:offset+SourcePortNumberLen], t.PortNumber)
+	offset += SourcePortNumberLen
 
-	copy(b[offset:offset+IntervalRequestTlvLen], tlvSlice)
+	copy(b[offset:offset+IntervalRequestTlvLen+4], tlvSlice)
 
 	return b, nil
 }
