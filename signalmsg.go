@@ -20,6 +20,10 @@ func (t *SignalingMsg) MarshalBinary() ([]byte, error) {
 		return nil, ErrInvalidMsgType
 	}
 
+	if t.Header.MessageLength == 0 {
+		t.Header.MessageLength = HeaderLen + SignalingPayloadLen + IntervalRequestTlvLen
+	}
+
 	headerSlice, err := t.Header.MarshalBinary()
 	if err != nil {
 		return nil, err
