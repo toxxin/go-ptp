@@ -87,3 +87,7 @@ func TestMarshalSignaling(t *testing.T) {
 		})
 	}
 }
+
+func TestUnmarshalSignaling(t *testing.T) {
+	// TODO: add test
+}
