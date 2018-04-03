@@ -52,7 +52,7 @@ func (t *SignalingMsg) MarshalBinary() ([]byte, error) {
 
 // UnmarshalBinary unmarshals a byte slice into a Frame.
 func (t *SignalingMsg) UnmarshalBinary(b []byte) error {
-	if len(b) != HeaderLen+SignalingPayloadLen+IntervalRequestTlvLen {
+	if len(b) != HeaderLen+SignalingPayloadLen+IntervalRequestTlvLen+4 {
 		return io.ErrUnexpectedEOF
 	}
 	err := t.Header.UnmarshalBinary(b[:HeaderLen])
