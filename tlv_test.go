@@ -263,3 +263,50 @@ func TestUnmarshalIntervalRequestTlv(t *testing.T) {
 		})
 	}
 }
+
+func TestMarshalFollowUpTlv(t *testing.T) {
+	var tests = []struct {
+		desc string
+		m    *FollowUpTlv
+		b    []byte
+		err  error
+	}{
+		{
+			desc: "Correct TLV values",
+			m: &FollowUpTlv{
+				CumulativeScaledRateOffset: 1,
+				GmTimeBaseIndicator:        2,
+				LastGmPhaseChange:          UScaledNs{1, 2},
+				ScaledLastGmFreqChange:     7,
+			},
+			b: append([]byte{0x0, 0x3, 0x0, 0x1c,
+				0x0, 0x80, 0xc2, 0x0, 0x0, 0x1,
+				// cumulativeScaledRateOffset
+				0x0, 0x0, 0x0, 0x1,
+				// gmTimeBaseIndicator
+				0x0, 0x2,
+				// lastGmPhaseChange
+				0x0, 0x0, 0x0, 0x1,
+				0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x2,
+				// scaledLastGmFreqChange
+				0x0, 0x0, 0x0, 0x7}),
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.desc, func(t *testing.T) {
+			b, err := tt.m.MarshalBinary()
+			if err != nil {
+				if want, got := tt.err, err; want != got {
+					t.Fatalf("unexpected error: %v != %v", want, got)
+				}
+
+				return
+			}
+
+			if want, got := tt.b, b; !bytes.Equal(want, got) {
+				t.Fatalf("unexpected Frame bytes:\n- want: %#v\n-  got: %#v", want, got)
+			}
+		})
+	}
+}
