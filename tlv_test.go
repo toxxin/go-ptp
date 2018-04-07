@@ -310,3 +310,66 @@ func TestMarshalFollowUpTlv(t *testing.T) {
 		})
 	}
 }
+
+func TestUnmarshalFollowUpTlv(t *testing.T) {
+	var tests = []struct {
+		desc string
+		m    *FollowUpTlv
+		b    []byte
+		err  error
+	}{
+		{
+			desc: "Correct TLV values",
+			m: &FollowUpTlv{
+				CumulativeScaledRateOffset: 1,
+				GmTimeBaseIndicator:        2,
+				LastGmPhaseChange:          UScaledNs{1, 2},
+				ScaledLastGmFreqChange:     7,
+			},
+			b: append([]byte{0x0, 0x3, 0x0, 0x1c,
+				0x0, 0x80, 0xc2, 0x0, 0x0, 0x1,
+				// cumulativeScaledRateOffset
+				0x0, 0x0, 0x0, 0x1,
+				// gmTimeBaseIndicator
+				0x0, 0x2,
+				// lastGmPhaseChange
+				0x0, 0x0, 0x0, 0x1,
+				0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x2,
+				// scaledLastGmFreqChange
+				0x0, 0x0, 0x0, 0x7}),
+		},
+		{
+			desc: "Invalid TLV type",
+			b: append([]byte{0x0, 0x2, 0x0, 0x1c,
+				0x0, 0x80, 0xc2, 0x0, 0x0, 0x1,
+				// cumulativeScaledRateOffset
+				0x0, 0x0, 0x0, 0x1,
+				// gmTimeBaseIndicator
+				0x0, 0x2,
+				// lastGmPhaseChange
+				0x0, 0x0, 0x0, 0x1,
+				0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x2,
+				// scaledLastGmFreqChange
+				0x0, 0x0, 0x0, 0x7}),
+			err: ErrInvalidTlvType,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.desc, func(t *testing.T) {
+			m := new(FollowUpTlv)
+			err := m.UnmarshalBinary(tt.b)
+			if err != nil {
+				if want, got := tt.err, err; want != got {
+					t.Fatalf("unexpected error: %v != %v", want, got)
+				}
+
+				return
+			}
+
+			if want, got := tt.m, m; !reflect.DeepEqual(want, got) {
+				t.Fatalf("unexpected Frame bytes:\n- want: %#v\n-  got: %#v", want, got)
+			}
+		})
+	}
+}
