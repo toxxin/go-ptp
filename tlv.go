@@ -204,7 +204,7 @@ func (p *FollowUpTlv) MarshalBinary() ([]byte, error) {
 	binary.BigEndian.PutUint16(b[:2], uint16(OrganizationExtension))
 
 	// TLV length
-	binary.BigEndian.PutUint16(b[2:4], uint16(IntervalRequestTlvLen))
+	binary.BigEndian.PutUint16(b[2:4], uint16(FollowUpTlvLen))
 
 	copy(b[4:7], organizationID)
 
@@ -226,8 +226,6 @@ func (p *FollowUpTlv) MarshalBinary() ([]byte, error) {
 	offset += UScaledNsLen
 
 	binary.BigEndian.PutUint32(b[offset:offset+4], uint32(p.ScaledLastGmFreqChange))
-
-	copy(b[:], []byte{0x0, 0x0, 0x1})
 
 	return b, nil
 }
