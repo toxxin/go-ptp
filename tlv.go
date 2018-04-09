@@ -292,7 +292,7 @@ func (p *CsnTlv) MarshalBinary() ([]byte, error) {
 	binary.BigEndian.PutUint16(b[:2], uint16(OrganizationExtension))
 
 	// TLV length
-	binary.BigEndian.PutUint16(b[2:4], uint16(IntervalRequestTlvLen))
+	binary.BigEndian.PutUint16(b[2:4], uint16(CsnTlvLen))
 
 	copy(b[4:7], organizationID)
 
@@ -330,9 +330,9 @@ func (p *CsnTlv) MarshalBinary() ([]byte, error) {
 	return b, nil
 }
 
-// UnmarshalBinary unmarshals a byte slice into a FollowUpTlv.
+// UnmarshalBinary unmarshals a byte slice into a CsnTlv frame.
 //
-// If the byte slice does not contain enough data to unmarshal a valid FollowUpTlv,
+// If the byte slice does not contain enough data to unmarshal a valid CsnTlv frame,
 // io.ErrUnexpectedEOF is returned.
 func (p *CsnTlv) UnmarshalBinary(b []byte) error {
 
