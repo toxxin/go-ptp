@@ -50,7 +50,10 @@ func (t *SignalingMsg) MarshalBinary() ([]byte, error) {
 	return b, nil
 }
 
-// UnmarshalBinary unmarshals a byte slice into a Frame.
+// UnmarshalBinary unmarshals a byte slice into a SignalingMsg.
+//
+// If the byte slice does not contain enough data to unmarshal a valid SignalingMsg,
+// io.ErrUnexpectedEOF is returned.
 func (t *SignalingMsg) UnmarshalBinary(b []byte) error {
 	if len(b) != HeaderLen+SignalingPayloadLen+IntervalRequestTlvLen+4 {
 		return io.ErrUnexpectedEOF
