@@ -60,6 +60,21 @@ const (
 	McastOther
 )
 
+// PortSate
+type PortState uint8
+
+const (
+	Initializing PortState = iota
+	Faulty
+	Disabled
+	Listening
+	PreMaster
+	Master
+	Passive
+	Uncalibrated
+	Slave
+)
+
 // Length in octets of main fields
 const (
 	MessageLengthLen           = 2
