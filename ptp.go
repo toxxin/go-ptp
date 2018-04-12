@@ -50,6 +50,16 @@ const (
 	OtherMsgCtrlType     MsgCtrlType = 5
 )
 
+// MulticastType
+type MulticastType uint8
+
+const (
+	McastNone MulticastType = iota
+	McastPdelay
+	McastTestStatus
+	McastOther
+)
+
 // Length in octets of main fields
 const (
 	MessageLengthLen           = 2
