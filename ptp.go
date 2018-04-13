@@ -7,6 +7,11 @@ import (
 	"time"
 )
 
+const (
+	PtpEtherType  uint16 = 0x88f7
+	AvtpEtherType uint16 = 0x22f0
+)
+
 // Errors
 var (
 	ErrInvalidFrame         = errors.New("Invalid frame")
