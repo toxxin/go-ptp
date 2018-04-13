@@ -12,6 +12,13 @@ const (
 	AvtpEtherType uint16 = 0x22f0
 )
 
+const (
+	GptpMulticast       string = "01:23:45:67:89:ab"
+	PDelayMulticast     string = GptpMulticast
+	OtherMulticast      string = GptpMulticast
+	TestStatusMulticast string = GptpMulticast
+)
+
 // Errors
 var (
 	ErrInvalidFrame         = errors.New("Invalid frame")
