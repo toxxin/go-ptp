@@ -460,3 +460,14 @@ const (
 	// Reserved FFFF
 
 )
+
+type clockType uint16
+
+const (
+	OrdinaryClock              clockType = 0
+	boundaryClock              clockType = 1
+	PeerToPeerTransparentClock clockType = 2
+	EndToEndTransparentClock   clockType = 3
+	ManagementNode             clockType = 4
+	// Reserved 5–F
+)
