@@ -387,3 +387,76 @@ func (p *CsnTlv) UnmarshalBinary(b []byte) error {
 
 	return nil
 }
+
+type ManagementIdType uint16
+
+const (
+	// Applicable to all node types 0000 – 1FFF
+	NullManagement           ManagementIdType = 0x0000
+	ClockDescription         ManagementIdType = 0x0001
+	UserDescription          ManagementIdType = 0x0002
+	SaveInNonVolatileStorage ManagementIdType = 0x0003
+	ResetNonVolatileStorage  ManagementIdType = 0x0004
+	Initialize               ManagementIdType = 0x0005
+	FaultLog                 ManagementIdType = 0x0006
+	FaultLogReset            ManagementIdType = 0x0007
+
+	// Reserved 0008 – 1FFF
+
+	// Applicable to ordinary and boundary clocks 2000 – 3FFF
+	DefaultDataSet                ManagementIdType = 0x2000
+	CurrenttDataSet               ManagementIdType = 0x2001
+	ParentDataSet                 ManagementIdType = 0x2002
+	TimePropertiesDataSet         ManagementIdType = 0x2003
+	PortDataSet                   ManagementIdType = 0x2004
+	Priority1                     ManagementIdType = 0x2005
+	Priority2                     ManagementIdType = 0x2006
+	Domain                        ManagementIdType = 0x2007
+	SlaveOnly                     ManagementIdType = 0x2008
+	LogAnnounceInterval           ManagementIdType = 0x2009
+	AnnounceReceiptTimeout        ManagementIdType = 0x200a
+	LogSyncInterval               ManagementIdType = 0x200b
+	VersionNumber                 ManagementIdType = 0x200c
+	EneablePort                   ManagementIdType = 0x200d
+	DisablePort                   ManagementIdType = 0x200e
+	Time                          ManagementIdType = 0x200f
+	ClockAccuracy                 ManagementIdType = 0x2010
+	UtcProperties                 ManagementIdType = 0x2011
+	TraceabilityProperties        ManagementIdType = 0x2012
+	TimescaleProperties           ManagementIdType = 0x2013
+	UnicastNegotiationEnable      ManagementIdType = 0x2014
+	PathTraceList                 ManagementIdType = 0x2015
+	PathTraceEnable               ManagementIdType = 0x2016
+	GrandMasterClusterTable       ManagementIdType = 0x2017
+	UnicastMasterTable            ManagementIdType = 0x2018
+	UnicastMasterMaxTableSize     ManagementIdType = 0x2019
+	AcceptableMasterTable         ManagementIdType = 0x201a
+	AcceptableMasterTableEnabled  ManagementIdType = 0x201b
+	AcceptableMasterMaxTableSize  ManagementIdType = 0x201c
+	AlternateMaster               ManagementIdType = 0x201d
+	AlternateTimeOffsetEnable     ManagementIdType = 0x201e
+	AlternateTimeOffsetName       ManagementIdType = 0x201f
+	AlternateTimeOffsetMaxKey     ManagementIdType = 0x2020
+	AlternateTimeOffsetProperties ManagementIdType = 0x2021
+
+	// Reserved 2022 – 3FFF
+
+	// Applicable to transparent clocks 4000 – 5FFF
+	TransparentClockDefaultDataSet ManagementIdType = 0x4000
+	TransparentClockPortDataSet    ManagementIdType = 0x4001
+	PrimaryDomain                  ManagementIdType = 0x4002
+
+	// Reserved 4003 – 5FFF
+
+	// Applicable to ordinary, boundary, and transparent clocks 6000 – 7FFF
+	DelayMechanism          ManagementIdType = 0x6000
+	LogMinPdelayReqInterval ManagementIdType = 0x6001
+
+	// Reserved 6002 – BFFF
+
+	// This range is to be used for implementation-specific identifiers C000 – DFFF
+	// This range is to be assigned by an alternate PTP profile E000 – FFFE
+
+	// Reserved FFFF
+
+)
