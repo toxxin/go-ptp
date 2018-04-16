@@ -461,13 +461,13 @@ const (
 
 )
 
-type clockType uint16
+type ClockType uint16
 
 const (
-	OrdinaryClock              clockType = 0
-	boundaryClock              clockType = 1
-	PeerToPeerTransparentClock clockType = 2
-	EndToEndTransparentClock   clockType = 3
-	ManagementNode             clockType = 4
+	OrdinaryClock              ClockType = 0
+	boundaryClock              ClockType = 1
+	PeerToPeerTransparentClock ClockType = 2
+	EndToEndTransparentClock   ClockType = 3
+	ManagementNode             ClockType = 4
 	// Reserved 5–F
 )
