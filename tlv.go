@@ -405,7 +405,7 @@ const (
 
 	// Applicable to ordinary and boundary clocks 2000 – 3FFF
 	DefaultDataSet                ManagementIdType = 0x2000
-	CurrenttDataSet               ManagementIdType = 0x2001
+	CurrentDataSet                ManagementIdType = 0x2001
 	ParentDataSet                 ManagementIdType = 0x2002
 	TimePropertiesDataSet         ManagementIdType = 0x2003
 	PortDataSet                   ManagementIdType = 0x2004
@@ -471,3 +471,114 @@ const (
 	ManagementNode             ClockType = 4
 	// Reserved 5–F
 )
+
+// SeverityCode is FaultRecord.severityCode
+type SeverityCode uint8
+
+const (
+	Emergency SeverityCode = 0
+	Alert
+	Critical
+	Error
+	Warning
+	Notice
+	Informational
+	Debug
+	// Reserved 08–FF
+)
+
+type ClockDescriptionTlv struct {
+}
+
+type UserDescriptionTlv struct {
+}
+
+type SaveInNonVolatileStorageTlv struct {
+}
+
+type ResetNonVolatileStorageTlv struct {
+}
+
+type InitializeTlv struct {
+}
+
+type FaultLogTlv struct {
+}
+
+type FaultLogResetTlv struct {
+}
+
+type DefaultDataSetTlv struct {
+}
+
+type CurrentDataSetTlv struct {
+}
+
+type ParentDataSetTlv struct {
+}
+
+type TimePropertiesDataSetTlv struct {
+}
+
+type PortDataSetTlv struct {
+}
+
+type Priority1Tlv struct {
+}
+
+type Priority2Tlv struct {
+}
+
+type DomainTlv struct {
+}
+
+type SlaveOnlyTlv struct {
+}
+
+type LogAnnounceIntervalTlv struct {
+}
+
+type AnnounceReceiptTimeoutTlv struct {
+}
+
+type LogSyncIntervalTlv struct {
+}
+
+type VersionNumberTlv struct {
+}
+
+type TimeTlv struct {
+}
+
+type ClockAccuracyTlv struct {
+}
+
+type UtcPropertiesTlv struct {
+}
+
+type TraceabilityPropertiesTlv struct {
+}
+
+type TimescalePropertiesTlv struct {
+}
+
+type EneablePortTlv struct {
+}
+
+type DisablePortTlv struct {
+}
+
+type TransparentClockDefaultDataSetTlv struct {
+}
+
+type TransparentClockPortDataSetTlv struct {
+}
+
+type PrimaryDomainTlv struct {
+}
+
+type DelayMechanismTlv struct {
+}
+
+type LogMinPdelayReqIntervalTlv struct {
+}
