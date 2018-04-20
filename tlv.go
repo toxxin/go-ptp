@@ -500,6 +500,7 @@ type ResetNonVolatileStorageTlv struct {
 }
 
 type InitializeTlv struct {
+	InitializationKey uint16
 }
 
 type FaultLogTlv struct {
@@ -551,6 +552,7 @@ type TimeTlv struct {
 }
 
 type ClockAccuracyTlv struct {
+	clockAccuracy ClockAccuracyType
 }
 
 type UtcPropertiesTlv struct {
