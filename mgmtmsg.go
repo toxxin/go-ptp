@@ -22,3 +22,13 @@ type MgmtMsg struct {
 	actionField          ActionFiledType
 	ManagementTlv
 }
+
+// MarshalBinary allocates a byte slice and marshals a Frame into binary form.
+func (t MgmtMsg) MarshalBinary() ([]byte, error) {
+	return []byte{}, nil
+}
+
+// UnmarshalBinary unmarshals a byte slice into a Frame.
+func (t *MgmtMsg) UnmarshalBinary(b []byte) error {
+	return nil
+}
