@@ -533,12 +533,18 @@ type PortDataSetTlv struct {
 }
 
 type Priority1Tlv struct {
+	Priority1 uint8
+	// Reserved 1byte
 }
 
 type Priority2Tlv struct {
+	Priority2 uint8
+	// Reserved 1byte
 }
 
 type DomainTlv struct {
+	DomainNumber uint8
+	// Reserved 1byte
 }
 
 type SlaveOnlyTlv struct {
