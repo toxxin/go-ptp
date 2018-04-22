@@ -28,7 +28,7 @@ func TestMarshalAnnounce(t *testing.T) {
 					SequenceID:       55330,
 					LogMessagePeriod: 0,
 				},
-				GMClockQuality: GMClockQuality{
+				GMClockQuality: ClockQuality{
 					ClockClass:    PrimarySyncRefClass,
 					ClockAccuracy: ClockAccuracy100ns,
 					ClockVariance: 200,
@@ -73,7 +73,7 @@ func TestMarshalAnnounce(t *testing.T) {
 					SequenceID:       55330,
 					LogMessagePeriod: 0,
 				},
-				GMClockQuality: GMClockQuality{
+				GMClockQuality: ClockQuality{
 					ClockClass:    PrimarySyncRefClass,
 					ClockAccuracy: ClockAccuracy100ns,
 					ClockVariance: 200,
@@ -129,7 +129,7 @@ func TestUnmarshalAnnounce(t *testing.T) {
 					SequenceID:       55330,
 					LogMessagePeriod: 0,
 				},
-				GMClockQuality: GMClockQuality{
+				GMClockQuality: ClockQuality{
 					ClockClass:    PrimarySyncRefClass,
 					ClockAccuracy: ClockAccuracy100ns,
 					ClockVariance: 200,
