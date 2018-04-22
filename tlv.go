@@ -510,6 +510,14 @@ type FaultLogResetTlv struct {
 }
 
 type DefaultDataSetTlv struct {
+	TSC         bool
+	SO          bool
+	NumberPorts uint16
+	Priority1   uint8
+	ClockQuality
+	Priority2     uint8
+	ClockIdentity uint64
+	DomainNumber  uint8
 }
 
 type CurrentDataSetTlv struct {
