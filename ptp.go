@@ -89,24 +89,24 @@ const (
 
 // Length in octets of main fields
 const (
-	MessageLengthLen           = 2
-	FlagsLen                   = 2
-	CorrectionNanoSecLen       = 6
-	CorrectionSubNanoSecLen    = 2
-	CorrectionFullLen          = CorrectionNanoSecLen + CorrectionSubNanoSecLen
-	ClockIdentityLen           = 8
-	SourcePortNumberLen        = 2
-	PortIdentityLen            = ClockIdentityLen + SourcePortNumberLen
-	SequenceIDLen              = 2
-	OriginTimestampSecLen      = 6
-	OriginTimestampNanoSecLen  = 4
-	OriginTimestampFullLen     = OriginTimestampSecLen + OriginTimestampNanoSecLen
-	CurrentUtcOffsetLen        = 2
-	GrandMasterClockQualityLen = 4
-	GrandMasterIdentityLen     = 8
-	StepsRemovedLen            = 2
-	Reserved4                  = 4
-	Reserved10                 = 10
+	MessageLengthLen          = 2
+	FlagsLen                  = 2
+	CorrectionNanoSecLen      = 6
+	CorrectionSubNanoSecLen   = 2
+	CorrectionFullLen         = CorrectionNanoSecLen + CorrectionSubNanoSecLen
+	ClockIdentityLen          = 8
+	SourcePortNumberLen       = 2
+	PortIdentityLen           = ClockIdentityLen + SourcePortNumberLen
+	SequenceIDLen             = 2
+	OriginTimestampSecLen     = 6
+	OriginTimestampNanoSecLen = 4
+	OriginTimestampFullLen    = OriginTimestampSecLen + OriginTimestampNanoSecLen
+	CurrentUtcOffsetLen       = 2
+	ClockQualityLen           = 4
+	GrandMasterIdentityLen    = 8
+	StepsRemovedLen           = 2
+	Reserved4                 = 4
+	Reserved10                = 10
 )
 
 // Length in octets of header and payloads
@@ -121,7 +121,7 @@ const (
 	PDelayRespFollowUpPayloadLen = OriginTimestampFullLen + PortIdentityLen
 	AnnouncePayloadLen           = 30
 	SignalingPayloadLen          = 10
-	GMClockQualityPayloadLen     = 4
+	ClockQualityPayloadLen       = 4
 	// SignalingPayloadLen depends on TLVs
 )
 
