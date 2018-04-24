@@ -524,6 +524,16 @@ type CurrentDataSetTlv struct {
 }
 
 type ParentDataSetTlv struct {
+	ClockIdentity uint64
+	PortNumber    uint16
+	PS            bool
+	// Reserved 1byte
+	ObservedParentOffsetScaledLogVariance uint16
+	ObservedParentClockPhaseChangeRate    uint32
+	GrandmasterPriority1                  uint8
+	GrandmasterClockQuality               ClockQuality
+	GrandmasterPriority2                  uint8
+	GrandmasterIdentity                   uint64
 }
 
 type TimePropertiesDataSetTlv struct {
