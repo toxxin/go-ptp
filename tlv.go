@@ -558,6 +558,8 @@ type DomainTlv struct {
 }
 
 type SlaveOnlyTlv struct {
+	SO bool
+	// Reserved 1byte
 }
 
 type LogAnnounceIntervalTlv struct {
