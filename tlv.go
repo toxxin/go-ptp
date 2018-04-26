@@ -571,6 +571,8 @@ type SlaveOnlyTlv struct {
 }
 
 type LogAnnounceIntervalTlv struct {
+	LogAnnounceInterval uint8
+	// Reserved 1byte
 }
 
 type AnnounceReceiptTimeoutTlv struct {
