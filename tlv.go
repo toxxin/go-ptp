@@ -598,6 +598,9 @@ type UtcPropertiesTlv struct {
 }
 
 type TraceabilityPropertiesTlv struct {
+	TTRA bool
+	FTRA bool
+	// Reserved 1byte
 }
 
 type TimescalePropertiesTlv struct {
