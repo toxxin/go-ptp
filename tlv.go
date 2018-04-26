@@ -537,6 +537,14 @@ type ParentDataSetTlv struct {
 }
 
 type TimePropertiesDataSetTlv struct {
+	CurrentUtcOffset uint16
+	LI61             bool
+	LI59             bool
+	UTCV             bool
+	PTP              bool
+	TTRA             bool
+	FTRA             bool
+	TimeSource       TimeSourceType
 }
 
 type PortDataSetTlv struct {
