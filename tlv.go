@@ -576,6 +576,8 @@ type LogAnnounceIntervalTlv struct {
 }
 
 type AnnounceReceiptTimeoutTlv struct {
+	AnnounceReceiptTimeout uint8
+	// Reserved 1byte
 }
 
 type LogSyncIntervalTlv struct {
