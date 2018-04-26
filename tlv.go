@@ -590,6 +590,11 @@ type ClockAccuracyTlv struct {
 }
 
 type UtcPropertiesTlv struct {
+	CurrentUtcOffset uint16
+	LI61             bool
+	LI59             bool
+	UTCV             bool
+	// Reserved 1byte
 }
 
 type TraceabilityPropertiesTlv struct {
