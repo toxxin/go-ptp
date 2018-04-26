@@ -604,6 +604,8 @@ type TraceabilityPropertiesTlv struct {
 }
 
 type TimescalePropertiesTlv struct {
+	PTP        bool
+	TimeSource TimeSourceType
 }
 
 type EneablePortTlv struct {
