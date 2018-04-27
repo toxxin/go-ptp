@@ -586,6 +586,8 @@ type LogSyncIntervalTlv struct {
 }
 
 type VersionNumberTlv struct {
+	VersionNumber uint8
+	// Reserved 1byte
 }
 
 type TimeTlv struct {
