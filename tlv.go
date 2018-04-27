@@ -633,6 +633,7 @@ type DelayMechanismTlv struct {
 }
 
 type LogMinPdelayReqIntervalTlv struct {
+	logMinPdelayReqInterval uint8
 }
 
 type ManagementTlv struct {
