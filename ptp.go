@@ -87,6 +87,15 @@ const (
 	Slave
 )
 
+// DelayMechanismType...
+type DelayMechanismType uint8
+
+const (
+	E2E      DelayMechanismType = 0x1
+	P2P      DelayMechanismType = 0x2
+	DISABLED DelayMechanismType = 0xfe
+)
+
 // Length in octets of main fields
 const (
 	MessageLengthLen          = 2
