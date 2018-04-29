@@ -636,6 +636,8 @@ type PrimaryDomainTlv struct {
 }
 
 type DelayMechanismTlv struct {
+	DelayMechanism DelayMechanismType
+	// Reserved 1byte
 }
 
 type LogMinPdelayReqIntervalTlv struct {
