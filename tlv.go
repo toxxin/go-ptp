@@ -623,6 +623,10 @@ type DisablePortTlv struct {
 }
 
 type TransparentClockDefaultDataSetTlv struct {
+	ClockIdentity  uint64
+	PortNumber     uint16
+	DelayMechanism DelayMechanismType
+	PrimaryDomain  uint8
 }
 
 type TransparentClockPortDataSetTlv struct {
