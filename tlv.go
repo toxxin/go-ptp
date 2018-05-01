@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"io"
+	"time"
 )
 
 // TLV payload length
@@ -591,6 +592,7 @@ type VersionNumberTlv struct {
 }
 
 type TimeTlv struct {
+	time.Time
 }
 
 type ClockAccuracyTlv struct {
