@@ -633,6 +633,8 @@ type TransparentClockPortDataSetTlv struct {
 }
 
 type PrimaryDomainTlv struct {
+	PrimaryDomain uint8
+	// Reserved 1byte
 }
 
 type DelayMechanismTlv struct {
