@@ -466,7 +466,7 @@ type ClockType uint16
 
 const (
 	OrdinaryClock              ClockType = 0
-	boundaryClock              ClockType = 1
+	BoundaryClock              ClockType = 1
 	PeerToPeerTransparentClock ClockType = 2
 	EndToEndTransparentClock   ClockType = 3
 	ManagementNode             ClockType = 4
