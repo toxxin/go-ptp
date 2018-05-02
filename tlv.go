@@ -645,7 +645,7 @@ type DelayMechanismTlv struct {
 }
 
 type LogMinPdelayReqIntervalTlv struct {
-	logMinPdelayReqInterval uint8
+	LogMinPdelayReqInterval uint8
 }
 
 type ManagementTlv struct {
