@@ -473,6 +473,33 @@ const (
 	// Reserved 5–F
 )
 
+type NetworkProtocolType uint16
+
+const (
+	// Reserved 0x0000
+
+	UDP_IPv4   NetworkProtocolType = 0x1
+	UDP_IPv6   NetworkProtocolType = 0x2
+	IEEE_802_3 NetworkProtocolType = 0x3
+	DeviceNet  NetworkProtocolType = 0x4
+	ControlNet NetworkProtocolType = 0x5
+	PROFINET   NetworkProtocolType = 0x6
+
+	// Reserved for assignment by the Precise Networked Clock Working Group of the IM/ST Committee 0007-EFFF
+
+	// Reserved for assignment in a PTP profile F000-FFFD
+
+	UnknownProtocol = 0xfffe
+
+	// Reserved 0xffff
+)
+
+// PortAddress...
+type PortAddress struct {
+	NetworkProtocol NetworkProtocolType
+	AddressField    []byte
+}
+
 // SeverityCode is FaultRecord.severityCode
 type SeverityCode uint8
 
