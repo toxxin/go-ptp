@@ -56,6 +56,13 @@ const (
 	// 4000 – FFFF
 )
 
+// RequestUnicastTransmissionTlv...
+type RequestUnicastTransmissionTlv struct {
+	MsgTypeValue          MsgType
+	LogInterMessagePeriod int8
+	DurationField         uint32
+}
+
 // PathTraceTlv ...
 type PathTraceTlv struct {
 	pathSequence []uint64
