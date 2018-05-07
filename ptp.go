@@ -134,6 +134,37 @@ const (
 	// SignalingPayloadLen depends on TLVs
 )
 
+// TimeSourceType Type
+type TimeSourceType uint8
+
+// TimeSource types codes
+const (
+	TimeSourceAtomic      TimeSourceType = 16
+	TimeSourceGPS         TimeSourceType = 32
+	TimeSourceTRadio      TimeSourceType = 48
+	TimeSourcePTP         TimeSourceType = 64
+	TimeSourceNTP         TimeSourceType = 80
+	TimeSourceHandSet     TimeSourceType = 96
+	TimeSourceOther       TimeSourceType = 144
+	TimeSourceInternalOsc TimeSourceType = 160
+)
+
+func isValidTimeSource(t TimeSourceType) bool {
+	switch t {
+	case
+		TimeSourceAtomic,
+		TimeSourceGPS,
+		TimeSourceTRadio,
+		TimeSourcePTP,
+		TimeSourceNTP,
+		TimeSourceHandSet,
+		TimeSourceOther,
+		TimeSourceInternalOsc:
+		return true
+	}
+	return false
+}
+
 // time2OriginTimestamp converts time.Time into bytes slice 6+4(sec+nanosec)
 // accordingly with ptp timestamp format.
 func time2OriginTimestamp(t time.Time, b []byte) error {
