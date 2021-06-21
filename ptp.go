@@ -104,6 +104,7 @@ const (
 	CorrectionSubNanoSecLen   = 2
 	CorrectionFullLen         = CorrectionNanoSecLen + CorrectionSubNanoSecLen
 	ClockIdentityLen          = 8
+	RequestingPortIdentityLen = 8
 	SourcePortNumberLen       = 2
 	PortIdentityLen           = ClockIdentityLen + SourcePortNumberLen
 	SequenceIDLen             = 2
