@@ -37,7 +37,7 @@ func (t *DelRespMsg) MarshalBinary() ([]byte, error) {
 	portIdentitySlice := make([]byte, 8)
 	binary.BigEndian.PutUint64(portIdentitySlice, t.RequestingPortIdentity)
 	copy(b[offset:offset+8], portIdentitySlice)
-	offset += 8
+	offset += RequestingPortIdentityLen
 
 	portIDSlice := make([]byte, 2)
 	binary.BigEndian.PutUint16(portIDSlice, t.RequestingPortID)
@@ -56,5 +56,26 @@ func (t *DelRespMsg) UnmarshalBinary(b []byte) error {
 		return io.ErrUnexpectedEOF
 	}
 
-	return ErrInvalidFrame
+	err := t.Header.UnmarshalBinary(b[:HeaderLen])
+	if err != nil {
+		return err
+	}
+
+	if t.Header.MessageType != DelayRespMsgType {
+		return ErrInvalidMsgType
+	}
+
+	if t.ReceiveTimestamp, err = originTimestamp2Time(b[HeaderLen : HeaderLen+OriginTimestampFullLen]); err != nil {
+		return err
+	}
+	offset := HeaderLen + OriginTimestampFullLen
+
+	t.RequestingPortIdentity = binary.BigEndian.Uint64(b[offset : offset+RequestingPortIdentityLen])
+	offset += RequestingPortIdentityLen
+
+	t.RequestingPortID = binary.BigEndian.Uint16(b[offset : offset+SourcePortNumberLen])
+
+	return nil
+
+
 }
