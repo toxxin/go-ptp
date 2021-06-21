@@ -1,1 +1,3 @@
-module "github.com/toxxin/go-ptp"
+module github.com/albanseurat/go-ptp
+
+go 1.16
